@@ -12,7 +12,7 @@ export function FaceResult({ result, onRestart }: { result: FaceAnalysisResult; 
     .filter((item): item is { product: Product; reason: string } => Boolean(item.product));
   const message = 'Olá! Fiz o visagismo por IA e gostaria de experimentar estas armações: ' + chosen.map(item => item.product.name).join(', ') + '.';
 
-  return <div className="animate-slide-up space-y-9">
+  return <div className="animate-fade-in space-y-9">
     <div className="grid overflow-hidden rounded-[1.75rem] bg-white shadow-soft md:grid-cols-[.8fr_1.2fr]">
       <div className="flex flex-col justify-center bg-primary p-8 text-white sm:p-10">
         <span className="mb-7 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/20 text-accent"><ScanFace size={36} /></span>
@@ -24,7 +24,7 @@ export function FaceResult({ result, onRestart }: { result: FaceAnalysisResult; 
         <div className="flex items-center gap-2 text-accent"><Sparkles size={18} /><span className="text-xs font-bold uppercase tracking-[.15em]">{result.source === 'local' ? 'Leitura local dos seus traços' : result.source === 'nvidia' ? 'Curadoria por IA (NVIDIA NIM)' : result.source === 'huggingface' ? 'Curadoria por IA (Hugging Face)' : 'Curadoria por IA (Gemini)'}</span></div>
         <h3 className="mt-4 text-2xl font-semibold tracking-tight text-primary">Armações que combinam com seus traços</h3>
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {chosen.map(({ product, reason }) => <a key={product.id} href="#recomendados" className="group overflow-hidden rounded-xl border border-primary/10 bg-light/50 transition hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-soft">
+          {chosen.map(({ product, reason }) => <a key={product.id} href="#recomendados" className="group overflow-hidden rounded-xl border border-primary/10 bg-light/50 transition hover:border-accent/50 hover:shadow-soft">
             <div className="relative aspect-[1.3] overflow-hidden bg-[#f3f8fa]"><Image src={product.image} alt={'Armação ' + product.name + ' recomendada pela IA'} fill sizes="(max-width: 640px) 45vw, 170px" className="object-cover transition duration-300 group-hover:scale-105" /></div>
             <div className="px-3 py-2.5"><strong className="block text-xs text-primary">{product.name}</strong><span className="mt-0.5 block text-[10px] font-semibold text-accent">{product.frameShape}</span><span className="mt-1.5 block text-[11px] leading-4 text-ink/60">{reason}</span></div>
           </a>)}

@@ -119,7 +119,7 @@ export function ProductGrid() {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-accent hover:-translate-y-0.5 transition duration-200"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-accent hover:shadow-lg transition duration-200"
           >
             <PlusCircle size={15} /> Adicionar Modelo
           </button>
@@ -127,8 +127,8 @@ export function ProductGrid() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {filtered.slice(0, limit).map((p, idx) => (
-          <div key={p.id} className="relative group/card animate-slide-up" style={{ animationDelay: `${(idx % 4) * 80}ms` }}>
+        {filtered.slice(0, limit).map((p) => (
+          <div key={p.id} className="relative group/card">
             <ProductCard product={p} />
             {p.id.startsWith('custom-') && (
               <button
