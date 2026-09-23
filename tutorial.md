@@ -9,9 +9,10 @@ Este documento foi preparado especialmente para você, proprietário da loja, e 
 ## 📑 Índice
 1. [Visão Geral e Proposta de Valor](#1-visão-geral-e-proposta-de-valor)
 2. [Roteiro de Demonstração para Clientes (Passo a Passo no Balcão)](#2-roteiro-de-demonstração-para-clientes)
-3. [Como Adicionar Novos Óculos ao Catálogo](#3-como-adicionar-novos-óculos-ao-catálogo)
-   - [Método 1: Pelo Próprio Site (Fácil e Sem Código)](#método-1-direto-pelo-site-fácil-e-rápido)
-   - [Método 2: De Forma Permanente no Arquivo de Dados](#método-2-permanente-no-código-fonte)
+3. [Como Adicionar, Editar e Remover Óculos do Catálogo](#3-como-adicionar-editar-e-remover-óculos-do-catálogo)
+   - [⭐ Painel Administrativo Secreto (`/admsecreto`) — Recomendado](#31-painel-administrativo-secreto-admsecreto--recomendado)
+   - [Método Rápido: Pelo Catálogo Público do Site](#32-método-rápido-pelo-catálogo-público)
+   - [Método Técnico: Permanente no Código-Fonte](#33-método-técnico-permanente-no-código-fonte)
 4. [Entendendo o Visagismo com Inteligência Artificial](#4-entendendo-o-visagismo-com-ia)
 5. [Como Funcionam os Botões de WhatsApp](#5-como-funcionam-os-botões-de-whatsapp)
 6. [Perguntas Frequentes e Dicas do Dia a Dia](#6-perguntas-frequentes)
@@ -23,8 +24,9 @@ Este documento foi preparado especialmente para você, proprietário da loja, e 
 O site da Sul Ótica une a **tradição de mais de 45 anos** da família Pressato com **tecnologia de ponta em inteligência artificial**.
 
 ### Principais Recursos:
-- **Catálogo Dinâmico e Filtrável:** O cliente pode filtrar armações por Grau ou Sol e por formatos anatômicos (Redondo, Gatinho, Aviador e Retangular).
+- **Catálogo Dinâmico e Filtrável:** O cliente pode filtrar armações por Grau ou Sol e por formatos anatômicos (Redondo, Gatinho, Aviador, Retangular, Oval e Quadrado).
 - **Visagismo Facial com IA:** O cliente envia uma foto ou usa a câmera do celular/tablet para receber uma análise das proporções do rosto e recomendações de armações que valorizam seus traços.
+- **Painel Administrativo Reservado:** Uma página exclusiva (`/admsecreto`) para você adicionar, editar preços, alterar fotos e excluir armações sem burocracia nem necessidade de senha.
 - **Integração com WhatsApp:** Cada recomendação e cada produto do catálogo tem um botão direto para o WhatsApp oficial da loja (`35 99889-2492`), já com a mensagem pronta informando o modelo escolhido.
 - **Localização e Tradição:** Informações precisas sobre o endereço na Rua Alves e Silva, horários de funcionamento e história da ótica.
 
@@ -42,7 +44,7 @@ Quando um cliente entrar na loja ou você estiver apresentando o site em um tabl
 2. Peça permissão ao cliente e clique em **"Usar câmera"** (ou escolha uma foto da galeria dele).
 3. Posicione o rosto de frente, com boa iluminação e o cabelo afastado das bochechas e testa.
 4. Clique em **"Capturar foto"**.
-5. Na prévia, clique no botão azul com brilho: **"Analisar com IA"**.
+5. Na prévia, clique no botão azul: **"Analisar com IA"**.
 
 ### Etapa 3: Apresentando o Resultado (3 a 5 minutos)
 - O sistema indicará o contorno predominante (por exemplo: *Oval*, *Quadrado*, *Redondo*, *Coração* ou *Alongado*).
@@ -56,34 +58,64 @@ Quando um cliente entrar na loja ou você estiver apresentando o site em um tabl
 
 ---
 
-## 3. Como Adicionar Novos Óculos ao Catálogo
+## 3. Como Adicionar, Editar e Remover Óculos do Catálogo
 
-Você tem **duas formas** de gerenciar o catálogo: direto na tela do navegador ou pelo arquivo de dados.
-
-### Método 1: Direto pelo Site (Fácil e Rápido)
-
-Você não precisa mexer em nenhuma linha de código para cadastrar armações enquanto demonstra o site!
-
-1. No menu superior, clique em **Catálogo** (`/catalogo`).
-2. Logo acima das armações, do lado direito da contagem de modelos, clique no botão escuro **`+ Adicionar Modelo`**.
-3. Uma janela se abrirá na tela:
-   - **Nome do Modelo:** Digite o nome da peça (ex: *Milano Bronze*, *Capri Tartaruga*).
-   - **Tipo:** Escolha se é óculos de **Grau** ou de **Sol**.
-   - **Formato:** Selecione o formato (**Redondo**, **Gatinho**, **Aviador** ou **Retangular**).
-   - **Preço (R$):** Digite o valor de venda (ex: `389`).
-   - **Cor da Armação:** Ex: *Dourado com Havana*, *Preto Fosco*.
-   - **Tags:** Detalhes da peça separados por vírgula (ex: *Leve, Acetato Italiano, UV400*).
-   - **Foto:** Você pode clicar em um dos modelos visuais prontos ou clicar em *"Enviar foto do seu computador / celular"* para carregar a foto real do óculos tirada na loja!
-4. Clique no botão azul **"Salvar Armação"**.
-5. **Pronto!** O óculos aparecerá imediatamente no catálogo. O site salva essas alterações na memória do seu navegador.
-6. Se quiser remover um modelo que você cadastrou, basta clicar no ícone de **lixeira vermelha** que aparece no canto superior do card.
-7. Se quiser voltar ao catálogo original, clique em **"Restaurar catálogo"**.
+Criamos um sistema completo para que o proprietário da loja tenha total autonomia sobre as armações exibidas.
 
 ---
 
-### Método 2: Permanente no Código-Fonte
+### 3.1. Painel Administrativo Secreto (`/admsecreto`) — RECOMENDADO
 
-Para cadastrar produtos que fiquem salvos de forma definitiva para todos os visitantes da internet:
+Esta é a forma mais prática, completa e segura de gerenciar todo o acervo.
+
+#### Como Acessar:
+Basta digitar no navegador do seu computador ou celular:
+- **No site publicado:** `https://sulotica-varginha.vercel.app/admsecreto` *(ou o domínio oficial da loja seguido de `/admsecreto`)*
+- **No computador da loja (localhost):** `http://localhost:3000/admsecreto`
+
+> 🔒 **Importante:** Esta página **não aparece no menu público do site** para os clientes não mexerem. Salve este link nos seus **Favoritos** do navegador para abrir sempre que precisar. Não precisa de login nem senha.
+
+#### O que você pode fazer no Painel:
+
+1. **Adicionar Nova Armação:**
+   - Clique no botão azul **`+ Adicionar Nova Armação`**.
+   - Digite o nome da peça (ex: *Milano Dourado*, *Capri Havana*).
+   - Escolha a marca (ex: *Coleção Sul*, *Ray-Ban*, *Vogue*).
+   - Defina o Tipo (**Grau**, **Sol** ou **Multifocal**).
+   - Escolha o Formato do Rosto (**Redondo**, **Gatinho**, **Aviador**, **Retangular**, **Oval** ou **Quadrado**).
+   - Preencha o Preço de Venda em reais.
+   - Escolha a foto: você pode selecionar um dos modelos prontos do mostruário ou clicar em *"Enviar foto do seu computador / celular"* para subir a foto real do produto!
+   - Clique em **Salvar Armação**.
+
+2. **Editar Qualquer Armação Existente:**
+   - Encontre a armação na lista (use o campo de busca se preferir).
+   - Clique no botão branco **`Editar Armação`**.
+   - Altere o preço, o nome, a cor, a foto ou as tags.
+   - Clique em **Salvar Alterações**. A vitrine do site é atualizada na mesma hora!
+
+3. **Excluir uma Armação:**
+   - No card da armação que deseja tirar de linha, clique no ícone da **lixeira vermelha**.
+   - Confirme a exclusão. A peça sairá imediatamente do catálogo e do visagismo.
+
+4. **Fazer Backup e Segurança:**
+   - **Exportar Backup:** Baixa um arquivo `.json` no seu computador com todo o catálogo salvo.
+   - **Importar Backup:** Permite carregar um arquivo de backup em outro aparelho (ex: no celular ou em outro computador da loja).
+   - **Restaurar Padrão:** Volta às 18 armações originais da Sul Ótica caso deseje reiniciar tudo.
+
+---
+
+### 3.2. Método Rápido: Pelo Catálogo Público
+
+Caso esteja navegando na página pública de catálogo (`/catalogo`):
+1. No topo da lista de produtos, você verá o botão **`+ Adicionar Modelo`**.
+2. Clique nele para abrir a janela de cadastro rápido.
+3. Para excluir produtos cadastrados por você, basta clicar na lixeira vermelha no canto do card.
+
+---
+
+### 3.3. Método Técnico: Permanente no Código-Fonte
+
+Caso prefira deixar novos modelos gravados permanentemente no código do projeto (para que já venham de fábrica em qualquer novo computador):
 
 1. Abra o arquivo:
    ```
@@ -97,15 +129,14 @@ Para cadastrar produtos que fiquem salvos de forma definitiva para todos os visi
      name: 'Nome do Seu Óculos',
      brand: 'Coleção Sul',
      price: 399,
-     image: '/images/frame-champagne.png', // Ou /images/frame-aviator.png, frame-cat-eye.png, frame-rectangular.png
+     image: '/images/frame-champagne.png', // Ou foto personalizada
      category: 'Grau', // 'Grau' ou 'Sol'
-     frameShape: 'Redondo', // 'Redondo' | 'Gatinho' | 'Aviador' | 'Retangular'
+     frameShape: 'Redondo', // 'Redondo' | 'Gatinho' | 'Aviador' | 'Retangular' | 'Oval' | 'Quadrado'
      tags: ['Acetato', 'Leve'],
      color: 'Dourado'
    },
    ```
-4. Basta copiar um bloco existente, colar no final antes do `];`, mudar o `id` para o próximo número (ex: `'19'`) e preencher com os dados da armação.
-5. Salve o arquivo. O site atualiza na mesma hora!
+4. Salve o arquivo e publique as alterações no GitHub.
 
 ---
 
@@ -148,6 +179,10 @@ No computador da loja, basta abrir o terminal e digitar:
 npm run dev
 ```
 Depois, abra o navegador em `http://localhost:3000`.
+
+### Como acessar o painel de gerenciamento de óculos?
+Abra o navegador e entre em:
+`http://localhost:3000/admsecreto` (ou no site da Vercel: `/admsecreto`).
 
 ### Como alterar o telefone ou WhatsApp no futuro?
 Basta abrir o arquivo `.env.local` na raiz do projeto e atualizar a linha:

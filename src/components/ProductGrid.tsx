@@ -3,65 +3,57 @@
 import { useEffect, useMemo, useState } from 'react';
 import { PlusCircle, RotateCcw, SlidersHorizontal, Trash2 } from 'lucide-react';
 import type { FrameShape, Product, ProductCategory } from '@/types';
-import { products as defaultProducts } from '@/lib/mock-data';
+import {
+  loadCatalog,
+  addCatalogProduct,
+  deleteCatalogProduct,
+  resetCatalogToDefault,
+  CATALOG_CHANGE_EVENT,
+} from '@/lib/catalog-storage';
 import { CategoryFilter } from './CategoryFilter';
 import { ProductCard } from './ProductCard';
 import { AddProductModal } from './AddProductModal';
 
-const STORAGE_KEY = 'sulotica_custom_products';
-
 export function ProductGrid() {
-  const [allProducts, setAllProducts] = useState<Product[]>(defaultProducts);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<ProductCategory | 'Todos'>('Todos');
   const [shape, setShape] = useState<FrameShape | 'Todos'>('Todos');
   const [limit, setLimit] = useState(8);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Load custom products from localStorage on mount
+  // Carregar produtos e escutar alterações vindas do painel /admsecreto ou de outras abas
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed: Product[] = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setAllProducts([...parsed, ...defaultProducts]);
-        }
-      }
-    } catch (e) {
-      console.warn('Erro ao carregar produtos salvos:', e);
+    setAllProducts(loadCatalog());
+
+    function handleCatalogChange() {
+      setAllProducts(loadCatalog());
     }
+
+    window.addEventListener(CATALOG_CHANGE_EVENT, handleCatalogChange);
+    window.addEventListener('storage', handleCatalogChange);
+
+    return () => {
+      window.removeEventListener(CATALOG_CHANGE_EVENT, handleCatalogChange);
+      window.removeEventListener('storage', handleCatalogChange);
+    };
   }, []);
 
   function handleAddProduct(newProduct: Product) {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const existing: Product[] = saved ? JSON.parse(saved) : [];
-      const updated = [newProduct, ...existing];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      setAllProducts([newProduct, ...allProducts]);
-    } catch (e) {
-      console.error('Erro ao salvar produto:', e);
-    }
+    const updated = addCatalogProduct(newProduct);
+    setAllProducts(updated);
   }
 
   function handleRemoveProduct(id: string) {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const existing: Product[] = JSON.parse(saved);
-        const filtered = existing.filter(p => p.id !== id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-      }
-      setAllProducts(allProducts.filter(p => p.id !== id));
-    } catch (e) {
-      console.error('Erro ao remover produto:', e);
+    if (confirm('Deseja excluir esta armação do catálogo?')) {
+      const updated = deleteCatalogProduct(id);
+      setAllProducts(updated);
     }
   }
 
   function handleReset() {
     if (confirm('Deseja restaurar o catálogo padrão da Sul Ótica?')) {
-      localStorage.removeItem(STORAGE_KEY);
-      setAllProducts(defaultProducts);
+      const updated = resetCatalogToDefault();
+      setAllProducts(updated);
     }
   }
 
@@ -178,4 +170,3 @@ export function ProductGrid() {
     </>
   );
 }
-

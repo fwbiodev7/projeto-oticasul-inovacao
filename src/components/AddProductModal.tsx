@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
-import { Plus, X, Upload, Check, Sparkles } from 'lucide-react';
+import { Plus, X, Upload, Check, Sparkles, Edit3 } from 'lucide-react';
 import type { FrameShape, Product, ProductCategory } from '@/types';
 
 interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddProduct: (product: Product) => void;
+  productToEdit?: Product | null;
 }
 
 const TEMPLATE_IMAGES = [
@@ -18,7 +19,7 @@ const TEMPLATE_IMAGES = [
   { label: 'Retangular (Urbano)', path: '/images/frame-rectangular.png', defaultShape: 'Retangular' },
 ];
 
-export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductModalProps) {
+export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }: AddProductModalProps) {
   const [name, setName] = useState('');
   const [brand, setBrand] = useState('Coleção Sul');
   const [price, setPrice] = useState('399');
@@ -28,6 +29,22 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
   const [tags, setTags] = useState('Acetato, Leve');
   const [image, setImage] = useState(TEMPLATE_IMAGES[0].path);
   const [imageCustom, setImageCustom] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (productToEdit) {
+      setName(productToEdit.name);
+      setBrand(productToEdit.brand || 'Coleção Sul');
+      setPrice(productToEdit.price.toString());
+      setCategory(productToEdit.category);
+      setFrameShape(productToEdit.frameShape);
+      setColor(productToEdit.color || '');
+      setTags(productToEdit.tags?.join(', ') || '');
+      setImage(productToEdit.image || TEMPLATE_IMAGES[0].path);
+      setImageCustom(productToEdit.image?.startsWith('data:') ? productToEdit.image : null);
+    } else {
+      resetForm();
+    }
+  }, [productToEdit, isOpen]);
 
   function resetForm() {
     setName('');
@@ -65,8 +82,8 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
     e.preventDefault();
     if (!name.trim()) return;
 
-    const newProduct: Product = {
-      id: 'custom-' + Date.now().toString().slice(-6),
+    const productData: Product = {
+      id: productToEdit ? productToEdit.id : 'custom-' + Date.now().toString().slice(-6),
       name: name.trim(),
       brand: brand.trim() || 'Coleção Sul',
       price: parseFloat(price) || 350,
@@ -80,10 +97,12 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
         .filter(Boolean),
     };
 
-    onAddProduct(newProduct);
+    onAddProduct(productData);
     resetForm();
     onClose();
   }
+
+  const isEditing = Boolean(productToEdit);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-sm animate-fade-in">
@@ -92,11 +111,17 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
         <div className="flex items-center justify-between border-b border-primary/10 px-6 py-5 bg-gradient-to-r from-light to-white">
           <div className="flex items-center gap-2 text-primary">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent/15 text-accent">
-              <Plus size={20} />
+              {isEditing ? <Edit3 size={19} /> : <Plus size={20} />}
             </span>
             <div>
-              <h2 className="text-lg font-bold text-primary">Adicionar Nova Armação</h2>
-              <p className="text-xs text-ink/60">Cadastre um modelo para exibir no catálogo da loja</p>
+              <h2 className="text-lg font-bold text-primary">
+                {isEditing ? 'Editar Armação' : 'Adicionar Nova Armação'}
+              </h2>
+              <p className="text-xs text-ink/60">
+                {isEditing
+                  ? `Atualizando informações de "${productToEdit?.name}"`
+                  : 'Cadastre um modelo para exibir no catálogo da loja'}
+              </p>
             </div>
           </div>
           <button
@@ -127,6 +152,19 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
+                Marca / Coleção
+              </label>
+              <input
+                type="text"
+                value={brand}
+                onChange={e => setBrand(e.target.value)}
+                placeholder="Ex: Coleção Sul, Ray-Ban..."
+                className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
                 Tipo
               </label>
               <select
@@ -139,10 +177,12 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
                 <option value="Multifocal">Multifocal</option>
               </select>
             </div>
+          </div>
 
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
-                Formato
+                Formato do Rosto
               </label>
               <select
                 value={frameShape}
@@ -157,9 +197,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
                 <option value="Quadrado">Quadrado</option>
               </select>
             </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
                 Preço (R$)
@@ -175,7 +213,9 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
                 className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
               />
             </div>
+          </div>
 
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
                 Cor da Armação
@@ -184,23 +224,23 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
                 type="text"
                 value={color}
                 onChange={e => setColor(e.target.value)}
-                placeholder="Ex: Dourado, Preto Fosco..."
+                placeholder="Ex: Dourado, Preto..."
                 className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
               />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
-              Tags / Detalhes (separados por vírgula)
-            </label>
-            <input
-              type="text"
-              value={tags}
-              onChange={e => setTags(e.target.value)}
-              placeholder="Ex: Titânio, Polarizado, Leve"
-              className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
-            />
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">
+                Tags (separadas por vírgula)
+              </label>
+              <input
+                type="text"
+                value={tags}
+                onChange={e => setTags(e.target.value)}
+                placeholder="Acetato, Leve, UV"
+                className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
+              />
+            </div>
           </div>
 
           {/* Selecionar Foto */}
@@ -250,7 +290,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
               Cancelar
             </button>
             <button type="submit" className="flex-1 btn-primary">
-              <Sparkles size={16} /> Salvar Armação
+              <Sparkles size={16} /> {isEditing ? 'Salvar Alterações' : 'Cadastrar no Catálogo'}
             </button>
           </div>
         </form>
