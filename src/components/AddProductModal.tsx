@@ -29,6 +29,23 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
   const [image, setImage] = useState(TEMPLATE_IMAGES[0].path);
   const [imageCustom, setImageCustom] = useState<string | null>(null);
 
+  function resetForm() {
+    setName('');
+    setBrand('Coleção Sul');
+    setPrice('399');
+    setCategory('Grau');
+    setFrameShape('Redondo');
+    setColor('');
+    setTags('Acetato, Leve');
+    setImage(TEMPLATE_IMAGES[0].path);
+    setImageCustom(null);
+  }
+
+  function handleClose() {
+    resetForm();
+    onClose();
+  }
+
   if (!isOpen) return null;
 
   function handleFileUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -64,6 +81,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
     };
 
     onAddProduct(newProduct);
+    resetForm();
     onClose();
   }
 
@@ -83,7 +101,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="rounded-full p-2 text-ink/40 hover:bg-light hover:text-ink transition"
           >
             <X size={20} />
@@ -118,6 +136,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
               >
                 <option value="Grau">Grau</option>
                 <option value="Sol">Sol</option>
+                <option value="Multifocal">Multifocal</option>
               </select>
             </div>
 
@@ -131,9 +150,11 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
                 className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
               >
                 <option value="Redondo">Redondo</option>
+                <option value="Oval">Oval</option>
                 <option value="Gatinho">Gatinho</option>
                 <option value="Aviador">Aviador</option>
                 <option value="Retangular">Retangular</option>
+                <option value="Quadrado">Quadrado</option>
               </select>
             </div>
           </div>
@@ -223,7 +244,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct }: AddProductMod
           <div className="pt-3 flex gap-3">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="flex-1 rounded-full border border-primary/15 px-4 py-3 text-sm font-bold text-primary hover:bg-light transition"
             >
               Cancelar

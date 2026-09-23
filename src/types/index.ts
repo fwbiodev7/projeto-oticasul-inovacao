@@ -1,5 +1,5 @@
-export type FrameShape = 'Redondo' | 'Gatinho' | 'Aviador' | 'Retangular';
-export type ProductCategory = 'Grau' | 'Sol';
+export type FrameShape = 'Redondo' | 'Gatinho' | 'Aviador' | 'Retangular' | 'Oval' | 'Quadrado';
+export type ProductCategory = 'Grau' | 'Sol' | 'Multifocal';
 
 export interface Product {
   id: string;
