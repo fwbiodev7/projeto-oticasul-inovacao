@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     return NextResponse.json(result, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     if (error instanceof VisagismoError) return NextResponse.json({ error: error.message }, { status: error.status });
-    return NextResponse.json({ error: 'Não foi possível analisar a foto.' }, { status: 400 });
+    console.error('Unhandled error in /api/visagismo:', error);
+    return NextResponse.json({ error: 'Não foi possível analisar a foto.' }, { status: 500 });
   }
 }

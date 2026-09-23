@@ -1,6 +1,6 @@
 import type { Product } from '@/types';
 
-export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '553532216531'; // Telefone público; confirmar habilitação no WhatsApp antes de publicar.
+export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5535998892492';
 export const whatsappUrl = (message = 'Olá! Vim pelo site da Sul Ótica e gostaria de atendimento.') =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
@@ -17,4 +17,10 @@ export const products: Product[] = [
   { id: '10', name: 'Nina Light', brand: 'Coleção Sul', price: 339, image: '/images/frame-rectangular.png', category: 'Grau', frameShape: 'Retangular', tags: ['Discreto', 'Acetato'], color: 'Azul marinho' },
   { id: '11', name: 'Maya Bold', brand: 'Coleção Sul', price: 409, image: '/images/frame-rectangular.png', category: 'Grau', frameShape: 'Retangular', tags: ['Marcante', 'Acetato'], color: 'Azul marinho' },
   { id: '12', name: 'Douro Urban', brand: 'Coleção Sul', price: 459, image: '/images/frame-rectangular.png', category: 'Grau', frameShape: 'Retangular', tags: ['Urbano', 'Acetato'], color: 'Azul marinho' },
+  { id: '13', name: 'Vargas Havana', brand: 'Coleção Sul', price: 389, image: '/images/frame-rectangular.png', category: 'Grau', frameShape: 'Retangular', tags: ['Elegante', 'Acetato Nobre'], color: 'Havana Tartaruga' },
+  { id: '14', name: 'Elegance Rosé', brand: 'Coleção Sul', price: 429, image: '/images/frame-cat-eye.png', category: 'Grau', frameShape: 'Gatinho', tags: ['Feminino', 'Leveza'], color: 'Rosé Cristal' },
+  { id: '15', name: 'Minas Aviator', brand: 'Coleção Sul', price: 469, image: '/images/frame-aviator.png', category: 'Sol', frameShape: 'Aviador', tags: ['Polarizado', 'Titânio'], color: 'Grafite Fosco' },
+  { id: '16', name: 'Rio Branco Slim', brand: 'Coleção Sul', price: 369, image: '/images/frame-champagne.png', category: 'Grau', frameShape: 'Redondo', tags: ['Minimalista', 'Aço Nobre'], color: 'Prata Escovado' },
+  { id: '17', name: 'Varginha Sunset', brand: 'Coleção Sul', price: 419, image: '/images/frame-cat-eye.png', category: 'Sol', frameShape: 'Gatinho', tags: ['Sofisticado', 'Proteção UV400'], color: 'Âmbar Degradê' },
+  { id: '18', name: 'Caparaó Black', brand: 'Coleção Sul', price: 449, image: '/images/frame-rectangular.png', category: 'Sol', frameShape: 'Retangular', tags: ['Urbano', 'Polarizado'], color: 'Preto Fosco' },
 ];

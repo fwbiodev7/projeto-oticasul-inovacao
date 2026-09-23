@@ -14,7 +14,7 @@ export interface Product {
 }
 
 export interface FaceAnalysisResult {
-  source: 'gemini' | 'local';
+  source: 'gemini' | 'huggingface' | 'nvidia' | 'local';
   faceShape: string;
   description: string;
   recommendedFrameShapes: FrameShape[];

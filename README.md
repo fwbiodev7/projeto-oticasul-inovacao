@@ -13,11 +13,15 @@ Abra http://localhost:3000. O catálogo e o modo **Testar sem usar cota** funcio
 
 ## Integrações opcionais
 
-Copie `.env.local.example` para `.env.local` e preencha as chaves necessárias. `GEMINI_API_KEY` ativa a análise de imagem pelo Gemini. Se o Gemini estiver indisponível ou sem cota, a interface usa automaticamente a análise local dos pontos faciais; o resultado mostra qual método foi usado. `GEMINI_MODEL` permite alterar o modelo (padrão `gemini-3.5-flash`). A chave fica apenas no servidor.
+Copie `.env.local.example` para `.env.local` e preencha as chaves necessárias. O sistema possui uma cascata de 4 camadas de resiliência:
+- **Plano A (Principal):** `GEMINI_API_KEY` com modelo `gemini-3.6-flash`.
+- **Plano B (Fallback 1):** `HUGGINGFACE_API_KEY` via Hugging Face Router.
+- **Plano C (Fallback 2):** `NVIDIA_API_KEY` via NVIDIA NIM Vision (`meta/llama-3.2-11b-vision-instruct`).
+- **Plano D (Local):** Análise local via MediaPipe FaceLandmarker no próprio navegador (100% offline e sem consumo de tokens).
 
 As variáveis `NEXT_PUBLIC_FIREBASE_*` inicializam App, Firestore, Storage e Auth. O catálogo atual permanece em `src/lib/mock-data.ts`; a conexão não muda a fonte de produtos automaticamente. O app não salva fotos nem leads.
 
-`NEXT_PUBLIC_WHATSAPP_NUMBER` define o destino dos botões de atendimento em formato internacional, sem `+`. O padrão é `553532216531`, baseado no telefone público da loja. **Confirme se este número está habilitado no WhatsApp antes de publicar.**
+`NEXT_PUBLIC_WHATSAPP_NUMBER` define o destino dos botões de atendimento em formato internacional, sem `+`. O padrão é `5535998892492`, baseado no WhatsApp da loja (R. Alves e Silva, 61 - Centro).
 
 ## Conteúdo de demonstração
 

@@ -21,7 +21,7 @@ export function FaceResult({ result, onRestart }: { result: FaceAnalysisResult; 
         <p className="mt-4 text-sm leading-7 text-white/70">{result.description}</p>
       </div>
       <div className="p-8 sm:p-10">
-        <div className="flex items-center gap-2 text-accent"><Sparkles size={18} /><span className="text-xs font-bold uppercase tracking-[.15em]">{result.source === 'local' ? 'Leitura local dos seus traços' : 'Curadoria por IA para você'}</span></div>
+        <div className="flex items-center gap-2 text-accent"><Sparkles size={18} /><span className="text-xs font-bold uppercase tracking-[.15em]">{result.source === 'local' ? 'Leitura local dos seus traços' : result.source === 'nvidia' ? 'Curadoria por IA (NVIDIA NIM)' : result.source === 'huggingface' ? 'Curadoria por IA (Hugging Face)' : 'Curadoria por IA (Gemini)'}</span></div>
         <h3 className="mt-4 text-2xl font-semibold tracking-tight text-primary">Armações que combinam com seus traços</h3>
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {chosen.map(({ product, reason }) => <a key={product.id} href="#recomendados" className="group overflow-hidden rounded-xl border border-primary/10 bg-light/50 transition hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-soft">

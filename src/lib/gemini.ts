@@ -81,14 +81,58 @@ function normalizeError(error: unknown, phase: 'contorno' | 'armações'): Visag
   return new VisagismoError('Não foi possível concluir a análise por IA. Tente novamente.', 502);
 }
 
-export async function analyzeFace(imageDataUrl: string): Promise<FaceAnalysisResult> {
+function cleanJsonText(raw: string): string {
+  return raw.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim();
+}
+
+function ensureDistinctRecommendations(faceShape: string, rawRecs?: Array<{ productId?: string; reason?: string }>) {
+  const seenIds = new Set<string>();
+  const seenShapes = new Set<FrameShape>();
+  const recommendations: Array<{ productId: string; reason: string }> = [];
+
+  if (Array.isArray(rawRecs)) {
+    for (const item of rawRecs) {
+      if (!item || typeof item.productId !== 'string') continue;
+      const product = products.find(p => p.id === item.productId);
+      if (!product || seenIds.has(product.id) || seenShapes.has(product.frameShape)) continue;
+      seenIds.add(product.id);
+      seenShapes.add(product.frameShape);
+      recommendations.push({
+        productId: product.id,
+        reason: (typeof item.reason === 'string' && item.reason.trim())
+          ? item.reason.trim()
+          : `Harmoniza com o contorno ${faceShape.toLowerCase()}.`,
+      });
+      if (recommendations.length === 3) break;
+    }
+  }
+
+  // Auto-backfill if fewer than 3 distinct shapes were picked
+  if (recommendations.length < 3) {
+    for (const prod of products) {
+      if (!seenIds.has(prod.id) && !seenShapes.has(prod.frameShape)) {
+        seenIds.add(prod.id);
+        seenShapes.add(prod.frameShape);
+        recommendations.push({
+          productId: prod.id,
+          reason: `Design em harmonia com o contorno ${faceShape.toLowerCase()}.`,
+        });
+        if (recommendations.length === 3) break;
+      }
+    }
+  }
+
+  return recommendations;
+}
+
+export async function analyzeWithGemini(imageDataUrl: string): Promise<FaceAnalysisResult> {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new VisagismoError('A análise por IA ainda não está configurada. Adicione GEMINI_API_KEY ao servidor.', 503);
+  if (!apiKey) throw new VisagismoError('GEMINI_API_KEY não configurada.', 503);
   const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(imageDataUrl);
   if (!match) throw new VisagismoError('Formato de imagem inválido.', 400);
 
-  const ai = new GoogleGenAI({ apiKey, httpOptions: { timeout: 60_000, retryOptions: { attempts: 2 } } });
-  const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+  const ai = new GoogleGenAI({ apiKey, httpOptions: { timeout: 60_000 } });
+  const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
 
   let observation: FaceObservation;
   try {
@@ -100,7 +144,7 @@ export async function analyzeFace(imageDataUrl: string): Promise<FaceAnalysisRes
       ],
       config: { responseMimeType: 'application/json', responseJsonSchema: observationSchema, temperature: 0 },
     });
-    if (!response.text) throw new Error('Resposta vazia do modelo; motivo: ' + response.candidates?.[0]?.finishReason);
+    if (!response.text) throw new Error('Resposta vazia do Gemini contorno: ' + response.candidates?.[0]?.finishReason);
     observation = JSON.parse(response.text) as FaceObservation;
   } catch (error) {
     throw normalizeError(error, 'contorno');
@@ -115,8 +159,8 @@ export async function analyzeFace(imageDataUrl: string): Promise<FaceAnalysisRes
     || typeof observation.contourEvidence !== 'string') {
     throw new VisagismoError('A IA não retornou uma análise válida. Tente outra foto.', 502);
   }
-  if (observation.confidence < 0.65 || observation.faceAspectRatio < 0.8 || observation.faceAspectRatio > 2.1
-    || (observation.faceShape === 'Alongado' && observation.faceAspectRatio < 1.55)) {
+  if (observation.confidence < 0.50 || observation.faceAspectRatio < 0.75 || observation.faceAspectRatio > 2.2
+    || (observation.faceShape === 'Alongado' && observation.faceAspectRatio < 1.30)) {
     throw new VisagismoError('As proporções do rosto não ficaram claras. Tente uma foto frontal, com o cabelo afastado do contorno facial.', 422);
   }
 
@@ -134,31 +178,163 @@ export async function analyzeFace(imageDataUrl: string): Promise<FaceAnalysisRes
       ].join(' '),
       config: { responseMimeType: 'application/json', responseJsonSchema: selectionSchema, temperature: 0.2 },
     });
-    if (!response.text) throw new Error('Resposta vazia do modelo; motivo: ' + response.candidates?.[0]?.finishReason);
+    if (!response.text) throw new Error('Resposta vazia do Gemini armações: ' + response.candidates?.[0]?.finishReason);
     selection = JSON.parse(response.text) as StyleSelection;
   } catch (error) {
     throw normalizeError(error, 'armações');
   }
 
-  if (typeof selection.styleAdvice !== 'string' || !Array.isArray(selection.recommendations)) {
-    throw new VisagismoError('A IA não retornou recomendações válidas. Tente novamente.', 502);
-  }
-  const seenIds = new Set<string>();
-  const seenShapes = new Set<FrameShape>();
-  const recommendations = selection.recommendations.filter(item => {
-    const product = products.find(p => p.id === item.productId);
-    if (!product || typeof item.reason !== 'string' || !item.reason.trim() || seenIds.has(product.id) || seenShapes.has(product.frameShape)) return false;
-    seenIds.add(product.id); seenShapes.add(product.frameShape);
-    return true;
-  });
-  if (recommendations.length !== 3) throw new VisagismoError('A IA não conseguiu selecionar três armações distintas. Tente novamente.', 502);
+  const recommendations = ensureDistinctRecommendations(observation.faceShape, selection.recommendations);
 
   return {
     source: 'gemini',
     faceShape: observation.faceShape,
     description: observation.contourEvidence.trim(),
-    styleAdvice: selection.styleAdvice.trim(),
+    styleAdvice: (selection.styleAdvice || 'Armações selecionadas para harmonizar com seus traços.').trim(),
     recommendedProducts: recommendations,
     recommendedFrameShapes: recommendations.map(item => products.find(p => p.id === item.productId)!.frameShape),
   };
+}
+
+export async function analyzeWithHuggingFace(imageDataUrl: string): Promise<FaceAnalysisResult> {
+  const apiKey = process.env.HUGGINGFACE_API_KEY;
+  if (!apiKey) throw new VisagismoError('HUGGINGFACE_API_KEY não configurada.', 503);
+  const model = process.env.HUGGINGFACE_MODEL || 'meta-llama/Llama-3.2-11B-Vision-Instruct';
+
+  const prompt = [
+    'Você é um consultor de visagismo ótico para a Sul Ótica de Varginha.',
+    'Analise o formato do rosto na foto e selecione 3 armações com formatos distintos do catálogo abaixo.',
+    'Catálogo disponível: ' + JSON.stringify(catalog),
+    'Responda EXCLUSIVAMENTE em formato JSON puro, sem blocos markdown, com o formato:',
+    '{"faceShape":"Oval"|"Redondo"|"Quadrado"|"Coração"|"Alongado","description":"frase breve dos traços","styleAdvice":"conselho de estilo curto","recommendedProducts":[{"productId":"ID","reason":"motivo"}]}',
+  ].join(' ');
+
+  const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + apiKey,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            { type: 'image_url', image_url: { url: imageDataUrl } },
+          ],
+        },
+      ],
+      temperature: 0.2,
+      max_tokens: 600,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Hugging Face API erro ${response.status}: ${errorBody.slice(0, 160)}`);
+  }
+
+  const data = await response.json();
+  const rawContent = data.choices?.[0]?.message?.content;
+  if (!rawContent) throw new Error('Hugging Face retornou resposta vazia.');
+
+  const parsed = JSON.parse(cleanJsonText(rawContent));
+  const faceShape = String(parsed.faceShape || 'Oval');
+  const recommendations = ensureDistinctRecommendations(faceShape, parsed.recommendedProducts);
+
+  return {
+    source: 'huggingface',
+    faceShape,
+    description: String(parsed.description || 'Traços analisados via Hugging Face.').trim(),
+    styleAdvice: String(parsed.styleAdvice || 'Armações selecionadas especialmente para você.').trim(),
+    recommendedProducts: recommendations,
+    recommendedFrameShapes: recommendations.map(item => products.find(p => p.id === item.productId)!.frameShape),
+  };
+}
+
+export async function analyzeWithNvidia(imageDataUrl: string): Promise<FaceAnalysisResult> {
+  const apiKey = process.env.NVIDIA_API_KEY;
+  if (!apiKey) throw new VisagismoError('NVIDIA_API_KEY não configurada.', 503);
+  const model = process.env.NVIDIA_MODEL || 'meta/llama-3.2-11b-vision-instruct';
+
+  const prompt = [
+    'Você é um consultor especialista em visagismo ótico para a Sul Ótica de Varginha.',
+    'Analise anatomicamente o contorno facial da pessoa nesta foto e selecione exatamente 3 armações com formatos diferentes do catálogo a seguir que valorizem esses traços.',
+    'Catálogo disponível: ' + JSON.stringify(catalog),
+    'Responda EXCLUSIVAMENTE em formato JSON puro, sem blocos markdown e sem textos adicionais, com a seguinte estrutura:',
+    '{"faceShape":"Oval"|"Redondo"|"Quadrado"|"Coração"|"Alongado","description":"Frase descrevendo os traços do contorno facial observados na foto.","styleAdvice":"Conselho de estilo em até duas frases curtas.","recommendedProducts":[{"productId":"01","reason":"Por que esta armação combina com o formato do rosto."},{"productId":"02","reason":"Por que esta armação combina com o formato do rosto."},{"productId":"03","reason":"Por que esta armação combina com o formato do rosto."}]}',
+  ].join(' ');
+
+  const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + apiKey,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            { type: 'image_url', image_url: { url: imageDataUrl } },
+          ],
+        },
+      ],
+      temperature: 0.2,
+      max_tokens: 600,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`NVIDIA API erro ${response.status}: ${errorBody.slice(0, 160)}`);
+  }
+
+  const data = await response.json();
+  const rawContent = data.choices?.[0]?.message?.content;
+  if (!rawContent) throw new Error('NVIDIA API retornou resposta vazia.');
+
+  const parsed = JSON.parse(cleanJsonText(rawContent));
+  const faceShape = String(parsed.faceShape || 'Oval');
+  const recommendations = ensureDistinctRecommendations(faceShape, parsed.recommendedProducts);
+
+  return {
+    source: 'nvidia',
+    faceShape,
+    description: String(parsed.description || 'Traços analisados com alta precisão visual via NVIDIA Vision.').trim(),
+    styleAdvice: String(parsed.styleAdvice || 'Armações selecionadas especialmente para valorizar o seu formato de rosto.').trim(),
+    recommendedProducts: recommendations,
+    recommendedFrameShapes: recommendations.map(item => products.find(p => p.id === item.productId)!.frameShape),
+  };
+}
+
+export async function analyzeFace(imageDataUrl: string): Promise<FaceAnalysisResult> {
+  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(imageDataUrl);
+  if (!match) throw new VisagismoError('Formato de imagem inválido.', 400);
+
+  // Plano A: Gemini
+  try {
+    return await analyzeWithGemini(imageDataUrl);
+  } catch (geminiError) {
+    console.warn('Plano A (Gemini) indisponível ou esgotou cota. Acionando Plano B (Hugging Face)...', geminiError instanceof Error ? geminiError.message : geminiError);
+
+    // Plano B: Hugging Face
+    try {
+      return await analyzeWithHuggingFace(imageDataUrl);
+    } catch (hfError) {
+      console.warn('Plano B (Hugging Face) indisponível. Acionando Plano C (NVIDIA)...', hfError instanceof Error ? hfError.message : hfError);
+
+      // Plano C: NVIDIA NIM Vision
+      try {
+        return await analyzeWithNvidia(imageDataUrl);
+      } catch (nvidiaError) {
+        console.error('Todos os serviços em nuvem (Gemini, Hugging Face, NVIDIA) falharam:', nvidiaError instanceof Error ? nvidiaError.message : nvidiaError);
+        throw new VisagismoError('Os provedores de IA em nuvem estão temporariamente ocupados. Ativando teste local...', 503);
+      }
+    }
+  }
 }

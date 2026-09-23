@@ -108,10 +108,23 @@ export async function analyzeFaceLocally(imageDataUrl: string): Promise<FaceAnal
   const photo = new Image();
   photo.src = imageDataUrl;
   await photo.decode();
+
+  // Render onto a canvas so MediaPipe receives a stable ImageBitmap-compatible
+  // source that doesn't require the element to be attached to the DOM.
+  const canvas = document.createElement('canvas');
+  canvas.width = photo.naturalWidth;
+  canvas.height = photo.naturalHeight;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas indisponível para análise local.');
+  ctx.drawImage(photo, 0, 0);
+
   const detector = await getDetector();
-  const result = detector.detect(photo);
-  if (result.faceLandmarks.length !== 1) {
-    throw new Error('A análise local precisa de uma foto frontal com apenas um rosto visível.');
+  const result = detector.detect(canvas);
+  if (result.faceLandmarks.length === 0) {
+    throw new Error('Nenhum rosto detectado. Envie uma foto frontal com boa iluminação e rosto visível.');
+  }
+  if (result.faceLandmarks.length > 1) {
+    throw new Error('A análise local precisa de uma foto com apenas um rosto visível.');
   }
   const metrics = measureFace(result.faceLandmarks[0], photo.naturalWidth, photo.naturalHeight);
   const shape = classifyFaceMetrics(metrics);
@@ -125,6 +138,6 @@ export async function analyzeFaceLocally(imageDataUrl: string): Promise<FaceAnal
     description: `A leitura dos pontos faciais sugere um contorno ${shape.toLowerCase()}, com proporção aproximada de ${metrics.aspect.toFixed(2).replace('.', ',')} entre altura e largura.`,
     styleAdvice: pick.advice,
     recommendedProducts,
-    recommendedFrameShapes: pick.ids.map(id => products.find(product => product.id === id)!.frameShape),
+    recommendedFrameShapes: pick.ids.map(id => products.find(product => product.id === id)?.frameShape).filter((s): s is NonNullable<typeof s> => Boolean(s)),
   };
 }
