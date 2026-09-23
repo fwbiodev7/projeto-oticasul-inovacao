@@ -4,8 +4,8 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: { default: 'Sul Ótica | Seu olhar, seu estilo', template: '%s | Sul Ótica' },
-  description: 'Sul Ótica em Varginha desde 1980. Explore armações e experimente uma nova forma de descobrir seu estilo com visagismo por IA.',
+  title: { default: 'Ótica Fábio | Seu olhar, seu estilo', template: '%s | Ótica Fábio' },
+  description: 'Ótica Fábio em Sua Cidade desde 2000. Explore armações e experimente uma nova forma de descobrir seu estilo com visagismo por IA.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

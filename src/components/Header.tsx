@@ -15,7 +15,7 @@ export function Header() {
   return <header className="sticky top-0 z-50 border-b border-primary/5 bg-white/95 backdrop-blur-xl">
     <div className="bg-primary text-white/85">
       <div className="container-wide flex h-9 items-center justify-between text-[11px] font-medium tracking-wide sm:text-xs">
-        <span className="flex items-center gap-2"><MapPin size={13} className="text-accent" />R. Alves e Silva, 61 · Centro · Varginha/MG</span>
+        <span className="flex items-center gap-2"><MapPin size={13} className="text-accent" />R. Alves e Silva, 61 · Centro · Sua Cidade/MG</span>
         <a className="hidden items-center gap-2 hover:text-white sm:flex" href="tel:+5535998892492"><Phone size={13} className="text-accent" />(35) 99889-2492</a>
       </div>
     </div>

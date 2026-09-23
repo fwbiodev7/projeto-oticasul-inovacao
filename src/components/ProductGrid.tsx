@@ -51,7 +51,7 @@ export function ProductGrid() {
   }
 
   function handleReset() {
-    if (confirm('Deseja restaurar o catálogo padrão da Sul Ótica?')) {
+    if (confirm('Deseja restaurar o catálogo padrão da Ótica Fábio?')) {
       const updated = resetCatalogToDefault();
       setAllProducts(updated);
     }

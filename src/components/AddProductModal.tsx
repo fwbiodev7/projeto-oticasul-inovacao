@@ -21,7 +21,7 @@ const TEMPLATE_IMAGES = [
 
 export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }: AddProductModalProps) {
   const [name, setName] = useState('');
-  const [brand, setBrand] = useState('Coleção Sul');
+  const [brand, setBrand] = useState('Coleção Fábio');
   const [price, setPrice] = useState('399');
   const [category, setCategory] = useState<ProductCategory>('Grau');
   const [frameShape, setFrameShape] = useState<FrameShape>('Redondo');
@@ -33,7 +33,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.name);
-      setBrand(productToEdit.brand || 'Coleção Sul');
+      setBrand(productToEdit.brand || 'Coleção Fábio');
       setPrice(productToEdit.price.toString());
       setCategory(productToEdit.category);
       setFrameShape(productToEdit.frameShape);
@@ -48,7 +48,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }
 
   function resetForm() {
     setName('');
-    setBrand('Coleção Sul');
+    setBrand('Coleção Fábio');
     setPrice('399');
     setCategory('Grau');
     setFrameShape('Redondo');
@@ -85,7 +85,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }
     const productData: Product = {
       id: productToEdit ? productToEdit.id : 'custom-' + Date.now().toString().slice(-6),
       name: name.trim(),
-      brand: brand.trim() || 'Coleção Sul',
+      brand: brand.trim() || 'Coleção Fábio',
       price: parseFloat(price) || 350,
       image,
       category,
@@ -158,7 +158,7 @@ export function AddProductModal({ isOpen, onClose, onAddProduct, productToEdit }
                 type="text"
                 value={brand}
                 onChange={e => setBrand(e.target.value)}
-                placeholder="Ex: Coleção Sul, Ray-Ban..."
+                placeholder="Ex: Coleção Fábio, Ray-Ban..."
                 className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
               />
             </div>

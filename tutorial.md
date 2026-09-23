@@ -1,7 +1,7 @@
-# 👓 Cartilha Simples do Site — Sul Ótica
-### Guia Prático e Passo a Passo para a Família Sul Ótica
+# 👓 Cartilha Simples do Site — Ótica Fábio
+### Guia Prático e Passo a Passo para a Família Ótica Fábio
 
-Olá! Este manual foi feito com muito carinho para que qualquer pessoa da equipe, **mesmo sem entender nada de computador ou internet**, consiga mexer no site da **Sul Ótica**, encantar os clientes e manter a vitrine de óculos sempre atualizada.
+Olá! Este manual foi feito com muito carinho para que qualquer pessoa da equipe, **mesmo sem entender nada de computador ou internet**, consiga mexer no site da **Ótica Fábio**, encantar os clientes e manter a vitrine de óculos sempre atualizada.
 
 ---
 
@@ -23,9 +23,9 @@ Para abrir o site no computador da loja, no celular ou no tablet:
 
 1. Abra o navegador de internet (o Google Chrome).
 2. Digite o endereço da loja na barra lá em cima:
-   - **`https://sulotica-varginha.vercel.app`** *(ou o endereço que você recebeu)*.
+   - **`https://oticafabio-varginha.vercel.app`** *(ou o endereço que você recebeu)*.
 3. Aperte a tecla **Enter**.
-4. **Pronto!** O site da Sul Ótica vai se abrir na tela com as fotos, o endereço da loja e os óculos.
+4. **Pronto!** O site da Ótica Fábio vai se abrir na tela com as fotos, o endereço da loja e os óculos.
 
 > 💡 **Dica de Ouro:** Clique na **estrelinha ⭐** no topo do seu navegador para salvar o site nos seus **Favoritos**. Assim, você só precisa dar um clique para abrir todos os dias de manhã!
 
@@ -36,7 +36,7 @@ Para abrir o site no computador da loja, no celular ou no tablet:
 Quando um cliente entrar na loja procurando uma armação ou querendo saber o que combina com ele:
 
 ### O que falar para o cliente:
-> *"Seu João / Dona Maria, nós temos uma novidade especial aqui na Sul Ótica! Desenvolvemos uma tecnologia que analisa o formato do seu rosto e sugere na hora quais modelos mais valorizam o seu olhar. Quer fazer o teste agora comigo no tablet?"*
+> *"Seu João / Dona Maria, nós temos uma novidade especial aqui na Ótica Fábio! Desenvolvemos uma tecnologia que analisa o formato do seu rosto e sugere na hora quais modelos mais valorizam o seu olhar. Quer fazer o teste agora comigo no tablet?"*
 
 ### Passo a passo na tela:
 1. No menu do site, clique em **"Visagismo IA"** (ou no botão azul *"Analisar meu rosto"*).
@@ -60,11 +60,11 @@ Para que nenhum cliente curioso altere os preços ou apague óculos por engano, 
 1. Na barra de endereço do navegador, digite o endereço do site com **/admsecreto** no final.  
    Exemplo:
    ```
-   https://sulotica-varginha.vercel.app/admsecreto
+   https://oticafabio-varginha.vercel.app/admsecreto
    ```
 2. Uma tela azul com um cadeado vai se abrir, pedindo a senha da loja.
 3. Digite a senha nos botões grandes na tela:
-   - **A senha é:** **`1980`** *(O ano em que a Sul Ótica nasceu em Varginha!)*
+   - **A senha é:** **`2000`** *(O ano em que a Ótica Fábio nasceu em Sua Cidade!)*
 4. Clique no botão verde **"Entrar"**.
 5. **Pronto!** Você está no painel de controle de todos os óculos.
 
@@ -78,7 +78,7 @@ Chegou uma armação nova na loja e você quer mostrar no site? É muito fácil:
 2. Clique no botão azul grandão lá em cima: **`+ Adicionar Nova Armação`**.
 3. Uma janelinha vai se abrir. Basta preencher com calma:
    - **Nome do Modelo:** Coloque o nome da peça (ex: *Armação Ouro Nobre*, *Óculos Capri Café*).
-   - **Marca:** Exemplo: *Coleção Sul*, *Ray-Ban*, *Vogue*.
+   - **Marca:** Exemplo: *Coleção Fábio*, *Ray-Ban*, *Vogue*.
    - **Tipo:** Escolha se é **Grau**, **Sol** ou **Multifocal**.
    - **Formato do Rosto:** Escolha se é *Redondo*, *Gatinho*, *Aviador*, *Retangular*, etc.
    - **Preço (R$):** Digite o valor de venda (exemplo: `389`).
@@ -121,7 +121,7 @@ Vendeu a última peça e não quer mais clientes procurando por ela?
 
 O site foi programado para facilitar ao máximo o contato do cliente com a loja:
 
-- **Telefone da Sul Ótica cadastrado:** `(35) 99889-2492`
+- **Telefone da Ótica Fábio cadastrado:** `(35) 99889-2492`
 - Embaixo de cada óculos e no final do Provador com IA, existe um botão de WhatsApp.
 - Quando o cliente clica, o WhatsApp dele já se abre com a mensagem pronta falando o nome do óculos:
   > *"Olá! Gostei muito da armação Aurora Champagne. Tem disponível para eu provar na loja?"*
@@ -132,7 +132,7 @@ O site foi programado para facilitar ao máximo o contato do cliente com a loja:
 ## 8. Dúvidas frequentes
 
 ### Esqueci a senha para entrar no painel!
-A senha é sempre o ano em que o Geraldo Pressato começou a Sul Ótica: **`1980`**.
+A senha é sempre o ano em que o João Silva começou a Ótica Fábio: **`2000`**.
 
 ### Preciso pagar alguma coisa mensal para manter o catálogo funcionando?
 Não! Todo o sistema foi construído de forma independente, sem assinaturas caras.
@@ -145,5 +145,5 @@ O Provador de Óculos tem um modo de segurança que funciona até mesmo sem inte
 
 ---
 
-❤️ **Sul Ótica** — *Tradição em Varginha desde 1980.*  
-*Rua Alves e Silva, 61 — Centro, Varginha/MG*
+❤️ **Ótica Fábio** — *Tradição em Sua Cidade desde 2000.*  
+*Rua Alves e Silva, 61 — Centro, Sua Cidade/MG*

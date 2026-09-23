@@ -35,7 +35,7 @@ import {
 } from '@/lib/catalog-storage';
 import { AddProductModal } from '@/components/AddProductModal';
 
-const DEFAULT_PIN = '1980'; // Ano de fundação da Sul Ótica
+const DEFAULT_PIN = '2000'; // Ano de fundação da Ótica Fábio
 
 export default function AdminSecretoPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -53,7 +53,7 @@ export default function AdminSecretoPage() {
   // Verificar se já autenticou nesta sessão do navegador
   useEffect(() => {
     try {
-      const savedAuth = sessionStorage.getItem('sulotica_adm_auth');
+      const savedAuth = sessionStorage.getItem('oticafabio_adm_auth');
       if (savedAuth === 'true') {
         setIsAuthenticated(true);
       }
@@ -84,12 +84,12 @@ export default function AdminSecretoPage() {
       setIsAuthenticated(true);
       setPinError(null);
       try {
-        sessionStorage.setItem('sulotica_adm_auth', 'true');
+        sessionStorage.setItem('oticafabio_adm_auth', 'true');
       } catch {
         // Ignora
       }
     } else {
-      setPinError('Código incorreto. A senha padrão da loja é 1980.');
+      setPinError('Código incorreto. A senha padrão da loja é 2000.');
       setPinInput('');
     }
   }
@@ -102,7 +102,7 @@ export default function AdminSecretoPage() {
       if (newPin === DEFAULT_PIN) {
         setIsAuthenticated(true);
         try {
-          sessionStorage.setItem('sulotica_adm_auth', 'true');
+          sessionStorage.setItem('oticafabio_adm_auth', 'true');
         } catch {
           // Ignora
         }
@@ -119,7 +119,7 @@ export default function AdminSecretoPage() {
     setIsAuthenticated(false);
     setPinInput('');
     try {
-      sessionStorage.removeItem('sulotica_adm_auth');
+      sessionStorage.removeItem('oticafabio_adm_auth');
     } catch {
       // Ignora
     }
@@ -167,7 +167,7 @@ export default function AdminSecretoPage() {
   function handleResetDefault() {
     if (
       confirm(
-        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Sul Ótica? Modelos criados por você serão excluídos.'
+        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Ótica Fábio? Modelos criados por você serão excluídos.'
       )
     ) {
       const updated = resetCatalogToDefault();
@@ -183,7 +183,7 @@ export default function AdminSecretoPage() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `sulotica_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      link.download = `oticafabio_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
       link.click();
       URL.revokeObjectURL(url);
       showToast('Arquivo de backup baixado com sucesso!');
@@ -239,7 +239,7 @@ export default function AdminSecretoPage() {
       <div className="min-h-screen bg-[#072444] text-white flex flex-col justify-between p-4 sm:p-8">
         <header className="flex items-center justify-between">
           <Link href="/" className="font-sans text-xl font-black tracking-[-.04em] text-white">
-            SUL <span className="text-accent">ÓTICA</span>
+            ÓTICA <span className="text-accent">FÁBIO</span>
           </Link>
           <Link
             href="/"
@@ -325,13 +325,13 @@ export default function AdminSecretoPage() {
               <KeyRound size={14} /> Senha da Loja:
             </p>
             <p>
-              A senha padrão é o ano em que a Sul Ótica começou: <strong>1980</strong>.
+              A senha padrão é o ano em que a Ótica Fábio começou: <strong>2000</strong>.
             </p>
           </div>
         </main>
 
         <footer className="text-center text-xs text-white/40">
-          Sul Ótica · Desde 1980 em Varginha/MG · Painel Protegido
+          Ótica Fábio · Desde 2000 em Sua Cidade/MG · Painel Protegido
         </footer>
       </div>
     );
@@ -354,7 +354,7 @@ export default function AdminSecretoPage() {
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
               <span className="font-sans text-xl font-black tracking-[-.04em] text-primary">
-                SUL <span className="text-accent">ÓTICA</span>
+                ÓTICA <span className="text-accent">FÁBIO</span>
               </span>
             </Link>
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-800">
@@ -647,7 +647,7 @@ export default function AdminSecretoPage() {
         <section className="rounded-2xl border border-primary/10 bg-white p-6 shadow-soft">
           <div className="flex items-center gap-2 text-primary font-bold text-base mb-3">
             <Sparkles size={18} className="text-accent" />
-            <span>Guia Rápido para a Equipe Sul Ótica</span>
+            <span>Guia Rápido para a Equipe Ótica Fábio</span>
           </div>
           <div className="grid gap-4 sm:grid-cols-3 text-xs text-ink/75 leading-5">
             <div className="rounded-xl bg-light p-4">

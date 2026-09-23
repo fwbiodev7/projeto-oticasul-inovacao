@@ -1,8 +1,8 @@
 import { products as defaultProducts } from '@/lib/mock-data';
 import type { Product } from '@/types';
 
-export const CATALOG_STORAGE_KEY = 'sulotica_catalog_v1';
-export const CATALOG_CHANGE_EVENT = 'sulotica_catalog_changed';
+export const CATALOG_STORAGE_KEY = 'oticafabio_catalog_v1';
+export const CATALOG_CHANGE_EVENT = 'oticafabio_catalog_changed';
 
 /**
  * Carrega todos os produtos salvos no navegador.
@@ -19,8 +19,8 @@ export function loadCatalog(): Product[] {
       }
     }
 
-    // Suporte retroativo ao formato antigo 'sulotica_custom_products'
-    const legacy = localStorage.getItem('sulotica_custom_products');
+    // Suporte retroativo ao formato antigo 'oticafabio_custom_products'
+    const legacy = localStorage.getItem('oticafabio_custom_products');
     if (legacy) {
       const legacyParsed = JSON.parse(legacy);
       if (Array.isArray(legacyParsed) && legacyParsed.length > 0) {
@@ -84,7 +84,7 @@ export function deleteCatalogProduct(id: string): Product[] {
 export function resetCatalogToDefault(): Product[] {
   if (typeof window !== 'undefined') {
     localStorage.removeItem(CATALOG_STORAGE_KEY);
-    localStorage.removeItem('sulotica_custom_products');
+    localStorage.removeItem('oticafabio_custom_products');
   }
   saveCatalog(defaultProducts);
   return defaultProducts;

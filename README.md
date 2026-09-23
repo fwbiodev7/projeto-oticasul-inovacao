@@ -1,4 +1,4 @@
-# Sul Ótica — protótipo e-commerce
+# Ótica Fábio — protótipo e-commerce
 
 Protótipo navegável em Next.js App Router, TypeScript e Tailwind CSS v3. Inclui catálogo filtrável, páginas institucionais e experiência de visagismo com upload ou câmera.
 
@@ -27,7 +27,7 @@ As variáveis `NEXT_PUBLIC_FIREBASE_*` inicializam App, Firestore, Storage e Aut
 
 Produtos, preços e fotos de campanha são ilustrativos. As imagens foram geradas por IA para este protótipo. O Gemini avalia primeiro o contorno facial aparente, incluindo uma estimativa visual da proporção entre altura e largura. A categoria "Alongado" exige proporção estimada de pelo menos 1,55. Em seguida, uma segunda chamada escolhe três armações distintas pelos IDs do catálogo.
 
-No modo local, o MediaPipe detecta pontos faciais no navegador. Medidas de altura, largura, testa e mandíbula orientam uma classificação aproximada e a escolha de três armações do catálogo. Fotos com vários rostos, sem rosto ou muito inclinadas pedem nova captura. Esse modo não envia a foto a uma API e não usa cota, mas depende de o navegador carregar os arquivos do modelo. A resposta é uma sugestão de estilo, sujeita à confirmação presencial. O protótipo não salva a foto. Antes de colocar no ar, substitua o catálogo, valide preços e estoque, confirme horário e WhatsApp, e revise o texto com a Sul Ótica.
+No modo local, o MediaPipe detecta pontos faciais no navegador. Medidas de altura, largura, testa e mandíbula orientam uma classificação aproximada e a escolha de três armações do catálogo. Fotos com vários rostos, sem rosto ou muito inclinadas pedem nova captura. Esse modo não envia a foto a uma API e não usa cota, mas depende de o navegador carregar os arquivos do modelo. A resposta é uma sugestão de estilo, sujeita à confirmação presencial. O protótipo não salva a foto. Antes de colocar no ar, substitua o catálogo, valide preços e estoque, confirme horário e WhatsApp, e revise o texto com a Ótica Fábio.
 
 As cinco fotos em `scripts/fixtures/` são retratos fictícios gerados para testar formatos diferentes; não são fotos de clientes.
 
