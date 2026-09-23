@@ -1,198 +1,149 @@
-# 👓 Manual Prático do Site — Sul Ótica
+# 👓 Cartilha Simples do Site — Sul Ótica
+### Guia Prático e Passo a Passo para a Família Sul Ótica
 
-Bem-vindo ao guia oficial do site da **Sul Ótica** (Rua Alves e Silva, 61 — Centro, Varginha/MG).
-
-Este documento foi preparado especialmente para você, proprietário da loja, e para a sua equipe aprenderem a utilizar todos os recursos da plataforma, encantar os clientes no balcão e gerenciar o catálogo de produtos com facilidade.
-
----
-
-## 📑 Índice
-1. [Visão Geral e Proposta de Valor](#1-visão-geral-e-proposta-de-valor)
-2. [Roteiro de Demonstração para Clientes (Passo a Passo no Balcão)](#2-roteiro-de-demonstração-para-clientes)
-3. [Como Adicionar, Editar e Remover Óculos do Catálogo](#3-como-adicionar-editar-e-remover-óculos-do-catálogo)
-   - [⭐ Painel Administrativo Secreto (`/admsecreto`) — Recomendado](#31-painel-administrativo-secreto-admsecreto--recomendado)
-   - [Método Rápido: Pelo Catálogo Público do Site](#32-método-rápido-pelo-catálogo-público)
-   - [Método Técnico: Permanente no Código-Fonte](#33-método-técnico-permanente-no-código-fonte)
-4. [Entendendo o Visagismo com Inteligência Artificial](#4-entendendo-o-visagismo-com-ia)
-5. [Como Funcionam os Botões de WhatsApp](#5-como-funcionam-os-botões-de-whatsapp)
-6. [Perguntas Frequentes e Dicas do Dia a Dia](#6-perguntas-frequentes)
+Olá! Este manual foi feito com muito carinho para que qualquer pessoa da equipe, **mesmo sem entender nada de computador ou internet**, consiga mexer no site da **Sul Ótica**, encantar os clientes e manter a vitrine de óculos sempre atualizada.
 
 ---
 
-## 1. Visão Geral e Proposta de Valor
-
-O site da Sul Ótica une a **tradição de mais de 45 anos** da família Pressato com **tecnologia de ponta em inteligência artificial**.
-
-### Principais Recursos:
-- **Catálogo Dinâmico e Filtrável:** O cliente pode filtrar armações por Grau ou Sol e por formatos anatômicos (Redondo, Gatinho, Aviador, Retangular, Oval e Quadrado).
-- **Visagismo Facial com IA:** O cliente envia uma foto ou usa a câmera do celular/tablet para receber uma análise das proporções do rosto e recomendações de armações que valorizam seus traços.
-- **Painel Administrativo Reservado:** Uma página exclusiva (`/admsecreto`) para você adicionar, editar preços, alterar fotos e excluir armações sem burocracia nem necessidade de senha.
-- **Integração com WhatsApp:** Cada recomendação e cada produto do catálogo tem um botão direto para o WhatsApp oficial da loja (`35 99889-2492`), já com a mensagem pronta informando o modelo escolhido.
-- **Localização e Tradição:** Informações precisas sobre o endereço na Rua Alves e Silva, horários de funcionamento e história da ótica.
+## 📑 O que você vai aprender aqui:
+1. [Como abrir o site todos os dias](#1-como-abrir-o-site-todos-os-dias)
+2. [Como usar o Provador com Inteligência Artificial com o cliente](#2-como-usar-o-provador-com-o-cliente-no-balcão)
+3. [Como entrar na Área Secreta da Loja (Para mexer nos óculos)](#3-como-entrar-na-área-secreta-da-loja)
+4. [Como colocar um óculos novo na vitrine](#4-como-colocar-um-óculos-novo-na-vitrine)
+5. [Como mudar o preço ou o nome de um óculos](#5-como-mudar-o-preço-ou-o-nome-de-um-óculos)
+6. [Como tirar da vitrine um óculos que acabou](#6-como-tirar-um-óculos-que-acabou-no-estoque)
+7. [Como os clientes chamam você no WhatsApp](#7-como-os-clientes-chamam-você-no-whatsapp)
+8. [Dúvidas frequentes e dicas de ouro](#8-dúvidas-frequentes)
 
 ---
 
-## 2. Roteiro de Demonstração para Clientes
+## 1. Como abrir o site todos os dias
 
-Quando um cliente entrar na loja ou você estiver apresentando o site em um tablet/celular:
+Para abrir o site no computador da loja, no celular ou no tablet:
 
-### Etapa 1: Acolhimento e Abertura (1 a 2 minutos)
-> *"Temos uma novidade para ajudar você a escolher a armação perfeita. Desenvolvemos uma ferramenta de visagismo com inteligência artificial que avalia o contorno do seu rosto e sugere os modelos que mais valorizam o seu estilo."*
+1. Abra o navegador de internet (o Google Chrome).
+2. Digite o endereço da loja na barra lá em cima:
+   - **`https://sulotica-varginha.vercel.app`** *(ou o endereço que você recebeu)*.
+3. Aperte a tecla **Enter**.
+4. **Pronto!** O site da Sul Ótica vai se abrir na tela com as fotos, o endereço da loja e os óculos.
 
-### Etapa 2: A Análise Facial (2 a 3 minutos)
-1. Acesse o menu **Visagismo IA** (ou clique em *Analisar meu rosto* na página inicial).
-2. Peça permissão ao cliente e clique em **"Usar câmera"** (ou escolha uma foto da galeria dele).
-3. Posicione o rosto de frente, com boa iluminação e o cabelo afastado das bochechas e testa.
+> 💡 **Dica de Ouro:** Clique na **estrelinha ⭐** no topo do seu navegador para salvar o site nos seus **Favoritos**. Assim, você só precisa dar um clique para abrir todos os dias de manhã!
+
+---
+
+## 2. Como usar o Provador com o cliente no balcão
+
+Quando um cliente entrar na loja procurando uma armação ou querendo saber o que combina com ele:
+
+### O que falar para o cliente:
+> *"Seu João / Dona Maria, nós temos uma novidade especial aqui na Sul Ótica! Desenvolvemos uma tecnologia que analisa o formato do seu rosto e sugere na hora quais modelos mais valorizam o seu olhar. Quer fazer o teste agora comigo no tablet?"*
+
+### Passo a passo na tela:
+1. No menu do site, clique em **"Visagismo IA"** (ou no botão azul *"Analisar meu rosto"*).
+2. Clique no botão **"Usar câmera"** (ou escolha uma foto que o cliente tiver no WhatsApp dele).
+3. Segure o aparelho na frente do rosto do cliente, bem iluminado.
 4. Clique em **"Capturar foto"**.
-5. Na prévia, clique no botão azul: **"Analisar com IA"**.
-
-### Etapa 3: Apresentando o Resultado (3 a 5 minutos)
-- O sistema indicará o contorno predominante (por exemplo: *Oval*, *Quadrado*, *Redondo*, *Coração* ou *Alongado*).
-- Explique que o visagismo serve como **ponto de partida e sugestão de estilo**, e que o diferencial da Sul Ótica é a experimentação presencial.
-- O sistema já lista 3 armações ideais do catálogo para aquele rosto.
-- Pegue no mostruário os óculos físicos correspondentes para o cliente provar na hora!
-
-### Etapa 4: Fechamento via WhatsApp
-- Se o cliente quiser pensar ou enviar as opções para a família, clique em **"Agendar atendimento"**.
-- O WhatsApp abre automaticamente com a lista dos modelos recomendados já digitada para o número da loja.
+5. Clique no botão azul bonito: **"Analisar com IA"**.
+6. Em poucos segundos, a tela vai mostrar:
+   - O formato provável do rosto do cliente (exemplo: Redondo, Quadrado, Oval).
+   - Uma explicação carinhosa sobre o estilo dele.
+   - **3 óculos recomendados** que combinam perfeitamente com ele!
+7. **O toque final de vocês:** Pegue os óculos físicos correspondentes no mostruário da loja e coloque no rosto do cliente para ele se olhar no espelho. A venda acontece aí!
 
 ---
 
-## 3. Como Adicionar, Editar e Remover Óculos do Catálogo
+## 3. Como entrar na Área Secreta da Loja
 
-Criamos um sistema completo para que o proprietário da loja tenha total autonomia sobre as armações exibidas.
+Para que nenhum cliente curioso altere os preços ou apague óculos por engano, criamos uma **salinha exclusiva da gerência**. Ela não aparece no menu público do site.
 
----
-
-### 3.1. Painel Administrativo Secreto (`/admsecreto`) — RECOMENDADO
-
-Esta é a forma mais prática, completa e segura de gerenciar todo o acervo.
-
-#### Como Acessar:
-Basta digitar no navegador do seu computador ou celular:
-- **No site publicado:** `https://sulotica-varginha.vercel.app/admsecreto` *(ou o domínio oficial da loja seguido de `/admsecreto`)*
-- **No computador da loja (localhost):** `http://localhost:3000/admsecreto`
-
-> 🔒 **Importante:** Esta página **não aparece no menu público do site** para os clientes não mexerem. Salve este link nos seus **Favoritos** do navegador para abrir sempre que precisar. Não precisa de login nem senha.
-
-#### O que você pode fazer no Painel:
-
-1. **Adicionar Nova Armação:**
-   - Clique no botão azul **`+ Adicionar Nova Armação`**.
-   - Digite o nome da peça (ex: *Milano Dourado*, *Capri Havana*).
-   - Escolha a marca (ex: *Coleção Sul*, *Ray-Ban*, *Vogue*).
-   - Defina o Tipo (**Grau**, **Sol** ou **Multifocal**).
-   - Escolha o Formato do Rosto (**Redondo**, **Gatinho**, **Aviador**, **Retangular**, **Oval** ou **Quadrado**).
-   - Preencha o Preço de Venda em reais.
-   - Escolha a foto: você pode selecionar um dos modelos prontos do mostruário ou clicar em *"Enviar foto do seu computador / celular"* para subir a foto real do produto!
-   - Clique em **Salvar Armação**.
-
-2. **Editar Qualquer Armação Existente:**
-   - Encontre a armação na lista (use o campo de busca se preferir).
-   - Clique no botão branco **`Editar Armação`**.
-   - Altere o preço, o nome, a cor, a foto ou as tags.
-   - Clique em **Salvar Alterações**. A vitrine do site é atualizada na mesma hora!
-
-3. **Excluir uma Armação:**
-   - No card da armação que deseja tirar de linha, clique no ícone da **lixeira vermelha**.
-   - Confirme a exclusão. A peça sairá imediatamente do catálogo e do visagismo.
-
-4. **Fazer Backup e Segurança:**
-   - **Exportar Backup:** Baixa um arquivo `.json` no seu computador com todo o catálogo salvo.
-   - **Importar Backup:** Permite carregar um arquivo de backup em outro aparelho (ex: no celular ou em outro computador da loja).
-   - **Restaurar Padrão:** Volta às 18 armações originais da Sul Ótica caso deseje reiniciar tudo.
-
----
-
-### 3.2. Método Rápido: Pelo Catálogo Público
-
-Caso esteja navegando na página pública de catálogo (`/catalogo`):
-1. No topo da lista de produtos, você verá o botão **`+ Adicionar Modelo`**.
-2. Clique nele para abrir a janela de cadastro rápido.
-3. Para excluir produtos cadastrados por você, basta clicar na lixeira vermelha no canto do card.
-
----
-
-### 3.3. Método Técnico: Permanente no Código-Fonte
-
-Caso prefira deixar novos modelos gravados permanentemente no código do projeto (para que já venham de fábrica em qualquer novo computador):
-
-1. Abra o arquivo:
+### Como entrar:
+1. Na barra de endereço do navegador, digite o endereço do site com **/admsecreto** no final.  
+   Exemplo:
    ```
-   src/lib/mock-data.ts
+   https://sulotica-varginha.vercel.app/admsecreto
    ```
-2. Você verá a lista `export const products: Product[] = [...]`.
-3. Cada produto tem o seguinte formato:
-   ```ts
-   {
-     id: '19',
-     name: 'Nome do Seu Óculos',
-     brand: 'Coleção Sul',
-     price: 399,
-     image: '/images/frame-champagne.png', // Ou foto personalizada
-     category: 'Grau', // 'Grau' ou 'Sol'
-     frameShape: 'Redondo', // 'Redondo' | 'Gatinho' | 'Aviador' | 'Retangular' | 'Oval' | 'Quadrado'
-     tags: ['Acetato', 'Leve'],
-     color: 'Dourado'
-   },
-   ```
-4. Salve o arquivo e publique as alterações no GitHub.
+2. Uma tela azul com um cadeado vai se abrir, pedindo a senha da loja.
+3. Digite a senha nos botões grandes na tela:
+   - **A senha é:** **`1980`** *(O ano em que a Sul Ótica nasceu em Varginha!)*
+4. Clique no botão verde **"Entrar"**.
+5. **Pronto!** Você está no painel de controle de todos os óculos.
 
 ---
 
-## 4. Entendendo o Visagismo com IA
+## 4. Como colocar um óculos novo na vitrine
 
-O sistema da Sul Ótica foi desenvolvido com uma **tecnologia de resiliência quádrupla** única no mercado:
+Chegou uma armação nova na loja e você quer mostrar no site? É muito fácil:
 
-| Camada | Provedor | Como Funciona |
-| :--- | :--- | :--- |
-| **Plano A (Principal)** | **Google Gemini 3.6 Flash** | Processa a foto em nuvem com alta velocidade e precisão estética. |
-| **Plano B (Reserva 1)** | **Hugging Face Router** | Se a cota do Gemini atingir o limite temporário, aciona automaticamente o Hugging Face. |
-| **Plano C (Reserva 2)** | **NVIDIA NIM Vision** | Modelo Llama 3.2 11B Vision de alta fidelidade visual hospedado nos servidores da NVIDIA. |
-| **Plano D (Offline / Local)** | **MediaPipe FaceLandmarker** | Se a loja estiver sem internet ou todas as APIs em nuvem caírem, o site mede os pontos faciais no próprio aparelho sem consumir dados nem tokens! |
-
-> **Segurança e LGPD:** O site não salva fotos de clientes em banco de dados nem armazena biometria facial permanente. A foto é usada exclusivamente no momento da leitura.
-
----
-
-## 5. Como Funcionam os Botões de WhatsApp
-
-Todos os botões do site foram configurados para o número oficial da Sul Ótica:
-- **Telefone:** `(35) 99889-2492`
-- **Link gerado:** `https://wa.me/5535998892492`
-
-### Exemplos de mensagens automáticas que chegam para você:
-- **Pelo botão de produto no catálogo:**
-  > *"Olá! Tenho interesse na armação Aurora Champagne (01). Pode me ajudar?"*
-- **Pelo resultado do Visagismo:**
-  > *"Olá! Fiz o visagismo por IA e gostaria de experimentar estas armações: Aurora Champagne, Brisa Cristal, Nina Light."*
-- **Pelo formulário de contato:**
-  > *"Olá, Sul Ótica! Meu nome é João. Gostaria de saber se vocês têm lentes multifocais digitais. Meu telefone: (35) 99999-9999"*
+1. Entre na área secreta (`/admsecreto`).
+2. Clique no botão azul grandão lá em cima: **`+ Adicionar Nova Armação`**.
+3. Uma janelinha vai se abrir. Basta preencher com calma:
+   - **Nome do Modelo:** Coloque o nome da peça (ex: *Armação Ouro Nobre*, *Óculos Capri Café*).
+   - **Marca:** Exemplo: *Coleção Sul*, *Ray-Ban*, *Vogue*.
+   - **Tipo:** Escolha se é **Grau**, **Sol** ou **Multifocal**.
+   - **Formato do Rosto:** Escolha se é *Redondo*, *Gatinho*, *Aviador*, *Retangular*, etc.
+   - **Preço (R$):** Digite o valor de venda (exemplo: `389`).
+   - **Cor da Armação:** Exemplo: *Dourado*, *Preto Fosco*, *Tartaruga*.
+   - **Foto:** Você pode escolher uma das fotos prontas que já deixamos para você, **OU** clicar em *"Enviar foto do seu computador / celular"* para tirar uma foto do óculos real na loja!
+4. Clique no botão azul **"Cadastrar no Catálogo"**.
+5. **Acabou!** A armação já está na vitrine para todo mundo ver.
 
 ---
 
-## 6. Perguntas Frequentes
+## 5. Como mudar o preço ou o nome de um óculos
 
-### Como iniciar o site na loja todos os dias?
-No computador da loja, basta abrir o terminal e digitar:
-```bash
-npm run dev
-```
-Depois, abra o navegador em `http://localhost:3000`.
+Se o preço de um óculos mudou, ou você quer trocar a foto dele:
 
-### Como acessar o painel de gerenciamento de óculos?
-Abra o navegador e entre em:
-`http://localhost:3000/admsecreto` (ou no site da Vercel: `/admsecreto`).
-
-### Como alterar o telefone ou WhatsApp no futuro?
-Basta abrir o arquivo `.env.local` na raiz do projeto e atualizar a linha:
-```env
-NEXT_PUBLIC_WHATSAPP_NUMBER=5535998892492
-```
-
-### O que fazer se um cliente tiver formato de rosto difícil de classificar?
-O visagismo é uma ferramenta de engajamento e inspiração, não um exame médico. Recomende que o cliente experimente os formatos sugeridos e deixe o atendimento caloroso da sua equipe fazer o trabalho final de escolha!
+1. Entre no painel (`/admsecreto`).
+2. Procure o óculos na lista (se tiver muitos, você pode digitar o nome dele na barrinha de busca).
+3. Embaixo da foto do óculos, clique no botão branco: **`Editar Armação`**.
+4. A tela vai abrir com os dados atuais dele. Mude o que você quiser (o preço, o nome, a cor).
+5. Clique em **"Salvar Alterações"**.
+6. Pronto! O site já atualiza na mesma hora.
 
 ---
 
-*Sul Ótica — Tradição em Varginha desde 1980.*
+## 6. Como tirar um óculos que acabou no estoque
+
+Vendeu a última peça e não quer mais clientes procurando por ela?
+
+1. Entre no painel (`/admsecreto`).
+2. Ache o óculos que acabou.
+3. No cantinho direito embaixo do óculos, clique no quadradinho vermelho com o **desenho da lixeira** 🗑️.
+4. O computador vai perguntar: *"Tem certeza que deseja remover?"*
+5. Clique em **OK**.
+6. Pronto! O óculos saiu da vitrine.
+
+> 🛡️ **Fique tranquilo(a):** Se um dia você apagar algo sem querer ou quiser voltar os óculos como estavam no primeiro dia, basta clicar no botão vermelho **"Restaurar Padrão"** no topo da página.
+
+---
+
+## 7. Como os clientes chamam você no WhatsApp
+
+O site foi programado para facilitar ao máximo o contato do cliente com a loja:
+
+- **Telefone da Sul Ótica cadastrado:** `(35) 99889-2492`
+- Embaixo de cada óculos e no final do Provador com IA, existe um botão de WhatsApp.
+- Quando o cliente clica, o WhatsApp dele já se abre com a mensagem pronta falando o nome do óculos:
+  > *"Olá! Gostei muito da armação Aurora Champagne. Tem disponível para eu provar na loja?"*
+- Você só precisa responder pelo celular da loja com a simpatia tradicional da família Pressato!
+
+---
+
+## 8. Dúvidas frequentes
+
+### Esqueci a senha para entrar no painel!
+A senha é sempre o ano em que o Geraldo Pressato começou a Sul Ótica: **`1980`**.
+
+### Preciso pagar alguma coisa mensal para manter o catálogo funcionando?
+Não! Todo o sistema foi construído de forma independente, sem assinaturas caras.
+
+### O cliente precisa baixar aplicativo no celular dele?
+Não precisa baixar nada! O site funciona direto no Google Chrome ou no Safari do celular, bem levinho e rápido.
+
+### O que fazer se a internet da loja cair?
+O Provador de Óculos tem um modo de segurança que funciona até mesmo sem internet no aparelho da loja, calculando as medidas no próprio tablet ou celular.
+
+---
+
+❤️ **Sul Ótica** — *Tradição em Varginha desde 1980.*  
+*Rua Alves e Silva, 61 — Centro, Varginha/MG*

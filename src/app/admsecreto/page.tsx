@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, ChangeEvent } from 'react';
+import { useState, useEffect, useMemo, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -17,10 +17,12 @@ import {
   Trash2,
   UploadCloud,
   CheckCircle2,
-  AlertTriangle,
   Lock,
+  Unlock,
+  KeyRound,
+  ShieldCheck,
 } from 'lucide-react';
-import type { FrameShape, Product, ProductCategory } from '@/types';
+import type { Product } from '@/types';
 import {
   loadCatalog,
   addCatalogProduct,
@@ -33,7 +35,13 @@ import {
 } from '@/lib/catalog-storage';
 import { AddProductModal } from '@/components/AddProductModal';
 
+const DEFAULT_PIN = '1980'; // Ano de fundação da Sul Ótica
+
 export default function AdminSecretoPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [pinInput, setPinInput] = useState<string>('');
+  const [pinError, setPinError] = useState<string | null>(null);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
@@ -41,6 +49,18 @@ export default function AdminSecretoPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Verificar se já autenticou nesta sessão do navegador
+  useEffect(() => {
+    try {
+      const savedAuth = sessionStorage.getItem('sulotica_adm_auth');
+      if (savedAuth === 'true') {
+        setIsAuthenticated(true);
+      }
+    } catch {
+      // Ignora erro em ambientes sem sessionStorage
+    }
+  }, []);
 
   // Carregar produtos e ouvir alterações
   useEffect(() => {
@@ -58,6 +78,53 @@ export default function AdminSecretoPage() {
     };
   }, []);
 
+  function handlePinSubmit(e?: FormEvent) {
+    if (e) e.preventDefault();
+    if (pinInput.trim() === DEFAULT_PIN) {
+      setIsAuthenticated(true);
+      setPinError(null);
+      try {
+        sessionStorage.setItem('sulotica_adm_auth', 'true');
+      } catch {
+        // Ignora
+      }
+    } else {
+      setPinError('Código incorreto. A senha padrão da loja é 1980.');
+      setPinInput('');
+    }
+  }
+
+  function handleKeypadPress(num: string) {
+    setPinError(null);
+    if (pinInput.length < 6) {
+      const newPin = pinInput + num;
+      setPinInput(newPin);
+      if (newPin === DEFAULT_PIN) {
+        setIsAuthenticated(true);
+        try {
+          sessionStorage.setItem('sulotica_adm_auth', 'true');
+        } catch {
+          // Ignora
+        }
+      }
+    }
+  }
+
+  function handleKeypadClear() {
+    setPinInput('');
+    setPinError(null);
+  }
+
+  function handleLogout() {
+    setIsAuthenticated(false);
+    setPinInput('');
+    try {
+      sessionStorage.removeItem('sulotica_adm_auth');
+    } catch {
+      // Ignora
+    }
+  }
+
   function showToast(msg: string) {
     setToastMessage(msg);
     setTimeout(() => {
@@ -65,19 +132,16 @@ export default function AdminSecretoPage() {
     }, 4000);
   }
 
-  // Abertura do modal para adicionar
   function handleOpenAdd() {
     setEditingProduct(null);
     setIsModalOpen(true);
   }
 
-  // Abertura do modal para editar
   function handleOpenEdit(product: Product) {
     setEditingProduct(product);
     setIsModalOpen(true);
   }
 
-  // Salvar (adicionar ou editar)
   function handleSaveProduct(productData: Product) {
     if (editingProduct) {
       const updated = updateCatalogProduct(productData);
@@ -92,7 +156,6 @@ export default function AdminSecretoPage() {
     setEditingProduct(null);
   }
 
-  // Excluir armação
   function handleDeleteProduct(id: string, name: string) {
     if (confirm(`Tem certeza que deseja remover a armação "${name}" do catálogo?`)) {
       const updated = deleteCatalogProduct(id);
@@ -101,7 +164,6 @@ export default function AdminSecretoPage() {
     }
   }
 
-  // Restaurar padrão
   function handleResetDefault() {
     if (
       confirm(
@@ -114,7 +176,6 @@ export default function AdminSecretoPage() {
     }
   }
 
-  // Exportar backup
   function handleExportBackup() {
     try {
       const dataStr = exportCatalogJson();
@@ -131,7 +192,6 @@ export default function AdminSecretoPage() {
     }
   }
 
-  // Importar backup
   function handleImportBackup(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -148,10 +208,9 @@ export default function AdminSecretoPage() {
       }
     };
     reader.readAsText(file);
-    e.target.value = ''; // limpa input
+    e.target.value = '';
   }
 
-  // Filtragem de busca
   const filteredProducts = useMemo(() => {
     return products.filter(p => {
       const matchesSearch =
@@ -169,12 +228,116 @@ export default function AdminSecretoPage() {
     });
   }, [products, search, selectedCategory, selectedShape]);
 
-  // Estatísticas
   const totalCount = products.length;
   const grauCount = products.filter(p => p.category === 'Grau').length;
   const solCount = products.filter(p => p.category === 'Sol').length;
   const customCount = products.filter(p => p.id.startsWith('custom-')).length;
 
+  // TELA DE PROTEÇÃO / DIGITAÇÃO DE PIN (SUPER SIMPLES E ACOLHEDORA)
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#072444] text-white flex flex-col justify-between p-4 sm:p-8">
+        <header className="flex items-center justify-between">
+          <Link href="/" className="font-sans text-xl font-black tracking-[-.04em] text-white">
+            SUL <span className="text-accent">ÓTICA</span>
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-white hover:bg-white/20 transition"
+          >
+            <ArrowLeft size={14} /> Voltar para o Site
+          </Link>
+        </header>
+
+        <main className="mx-auto w-full max-w-sm my-auto text-center py-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-accent/20 text-accent mb-5 border border-accent/30 shadow-lg shadow-accent/20">
+            <Lock size={30} />
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            Área Reservada da Loja
+          </h1>
+          <p className="mt-2 text-sm text-white/70 leading-relaxed">
+            Painel exclusivo dos proprietários para mexer no catálogo de óculos.
+          </p>
+
+          <form onSubmit={handlePinSubmit} className="mt-6">
+            {/* Visor do PIN */}
+            <div className="flex justify-center items-center gap-3 my-4">
+              {[0, 1, 2, 3].map(i => (
+                <div
+                  key={i}
+                  className={`h-11 w-11 rounded-2xl border-2 flex items-center justify-center text-xl font-black transition-all ${
+                    pinInput.length > i
+                      ? 'border-accent bg-accent/20 text-white shadow-md'
+                      : 'border-white/20 bg-white/5 text-transparent'
+                  }`}
+                >
+                  {pinInput.length > i ? '●' : ''}
+                </div>
+              ))}
+            </div>
+
+            {pinError && (
+              <p className="mb-4 rounded-xl bg-red-500/20 border border-red-500/40 p-2.5 text-xs font-semibold text-red-200">
+                {pinError}
+              </p>
+            )}
+
+            {/* Teclado Numérico Grande (Ideal para celular, tablet ou tela de toque) */}
+            <div className="grid grid-cols-3 gap-2.5 max-w-[260px] mx-auto mt-4">
+              {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(num => (
+                <button
+                  key={num}
+                  type="button"
+                  onClick={() => handleKeypadPress(num)}
+                  className="h-13 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent hover:text-white transition active:scale-95 border border-white/10 flex items-center justify-center"
+                >
+                  {num}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={handleKeypadClear}
+                className="h-13 rounded-2xl bg-white/5 text-xs font-bold text-white/60 hover:bg-white/15 transition active:scale-95 border border-white/10 flex items-center justify-center"
+              >
+                Limpar
+              </button>
+              <button
+                type="button"
+                onClick={() => handleKeypadPress('0')}
+                className="h-13 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent transition active:scale-95 border border-white/10 flex items-center justify-center"
+              >
+                0
+              </button>
+              <button
+                type="submit"
+                className="h-13 rounded-2xl bg-accent text-sm font-bold text-white hover:bg-[#0da2e0] transition active:scale-95 shadow-md flex items-center justify-center gap-1"
+              >
+                <Unlock size={16} /> Entrar
+              </button>
+            </div>
+          </form>
+
+          {/* Dica Amigável */}
+          <div className="mt-8 rounded-2xl bg-white/5 p-4 border border-white/10 text-xs text-white/70">
+            <p className="flex items-center justify-center gap-1.5 font-bold text-accent mb-1">
+              <KeyRound size={14} /> Senha da Loja:
+            </p>
+            <p>
+              A senha padrão é o ano em que a Sul Ótica começou: <strong>1980</strong>.
+            </p>
+          </div>
+        </main>
+
+        <footer className="text-center text-xs text-white/40">
+          Sul Ótica · Desde 1980 em Varginha/MG · Painel Protegido
+        </footer>
+      </div>
+    );
+  }
+
+  // TELA ADMINISTRATIVA PRINCIPAL
   return (
     <div className="min-h-screen bg-[#f7fafc] text-ink pb-20">
       {/* Toast de notificação */}
@@ -194,8 +357,8 @@ export default function AdminSecretoPage() {
                 SUL <span className="text-accent">ÓTICA</span>
               </span>
             </Link>
-            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-primary/8 px-3 py-1 text-[11px] font-bold text-primary">
-              <Lock size={12} className="text-accent" /> Painel Reservado / ADM
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-800">
+              <ShieldCheck size={13} className="text-emerald-600" /> Acesso Seguro Autorizado
             </span>
           </div>
 
@@ -206,12 +369,14 @@ export default function AdminSecretoPage() {
             >
               <Eye size={14} /> Ver Catálogo do Site
             </Link>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 rounded-full bg-light px-3.5 py-2 text-xs font-bold text-primary/70 hover:text-primary transition"
+            <button
+              type="button"
+              onClick={handleLogout}
+              title="Bloquear painel para segurança"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary/8 px-3.5 py-2 text-xs font-bold text-primary hover:bg-primary hover:text-white transition"
             >
-              <ArrowLeft size={14} /> Início
-            </Link>
+              <Lock size={13} /> Bloquear
+            </button>
           </div>
         </div>
       </header>
