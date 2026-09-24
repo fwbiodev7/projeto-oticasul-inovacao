@@ -5,12 +5,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#0A3766',
-        accent: '#18A9E5',
-        light: '#F4F9FC',
-        ink: '#12395D',
+        primary: 'rgb(var(--brand-primary) / <alpha-value>)',
+        accent: 'rgb(var(--brand-accent) / <alpha-value>)',
+        light: 'rgb(var(--brand-light) / <alpha-value>)',
+        ink: 'rgb(var(--brand-ink) / <alpha-value>)',
+        paper: 'rgb(var(--brand-paper) / <alpha-value>)',
+        lime: 'rgb(var(--brand-lime) / <alpha-value>)',
       },
-      fontFamily: { sans: ['Inter', 'Arial', 'sans-serif'] },
+      fontFamily: { sans: ['Arial', 'Helvetica', 'sans-serif'] },
       boxShadow: { soft: '0 18px 55px rgba(6, 51, 92, .08)' },
       animation: {
         'fade-in': 'fadeIn .4s ease-out both',

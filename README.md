@@ -1,45 +1,134 @@
-# Ótica Fábio — protótipo e-commerce
+# Inovação Ótica
 
-Protótipo navegável em Next.js App Router, TypeScript e Tailwind CSS v3. Inclui catálogo filtrável, páginas institucionais e experiência de visagismo com upload ou câmera.
+Site de ótica com identidade editorial própria, catálogo por marca e sugestões de armações por visagismo. Construído com Next.js 16, React 19, TypeScript e Tailwind CSS 3.
 
-## Rodar localmente
+> **Estado do projeto:** protótipo navegável. O editor atual salva o catálogo somente no navegador utilizado. Ainda não há autenticação administrativa no servidor nem catálogo compartilhado entre visitantes. Não é uma loja com checkout.
+
+## O que mudou nesta atualização
+
+- Nova identidade **Inovação Ótica**, substituindo os nomes antigos nas telas e mensagens.
+- Design em verde profundo e tons claros, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
+- Animações de entrada, faixa em movimento, selo giratório, efeitos nos produtos e ilustração animada do visagismo.
+- Respeito à preferência de movimento reduzido, menu móvel com fechamento por Escape e link para pular ao conteúdo.
+- Identidade, campanha e contatos centralizados; cores controladas por variáveis compartilhadas.
+- Busca por nome, marca, cor e estilo, sem diferenciar acentos; filtro de marcas gerado a partir do catálogo e ordenação por preço ou nome.
+- Atalhos de grau e sol que abrem o catálogo já filtrado.
+- Página inicial sincronizada com o catálogo editado no mesmo navegador.
+- Retirada dos controles de cadastro e exclusão da vitrine pública; edição concentrada no editor de demonstração.
+- Correções no catálogo vazio, preço zero e centavos, validação de backups, identificadores dos produtos e avisos de falha ao salvar.
+- Fotos de cadastro validadas e reduzidas antes do armazenamento, modal acessível e tratamento de imagens indisponíveis nos cards.
+- Recomendações exibidas apenas para produtos presentes no catálogo atual, com alternativas por formato quando necessário.
+- Validação de origem da API corrigida, sem liberar automaticamente domínios externos terminados em `.vercel.app`.
+- Comando de lint atualizado para a versão atual do Next.js.
+- Remoção de endereço, história e rede social demonstrativos apresentados como fatos. Os campos devem ser preenchidos com dados reais.
+
+## Executar localmente
+
+Requer Node.js 20.9 ou superior e npm. A validação desta atualização utilizou Node.js 24.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Abra http://localhost:3000. O catálogo e o modo **Testar sem usar cota** funcionam sem chave de API. Na primeira execução, o projeto baixa o [modelo Face Landmarker do MediaPipe](https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker/index) e copia o runtime WebAssembly do pacote instalado para `public/mediapipe/`. Esses arquivos gerados não entram no Git.
+Abra [localhost:3000](http://localhost:3000).
 
-## Integrações opcionais
+Os comandos de desenvolvimento e compilação preparam os arquivos do MediaPipe. No primeiro uso, o projeto precisa de internet para baixar o modelo facial e conferir sua integridade. Os arquivos gerados ficam em `public/mediapipe/` e não entram no Git.
 
-Copie `.env.local.example` para `.env.local` e preencha as chaves necessárias. O sistema possui uma cascata de 4 camadas de resiliência:
-- **Plano A (Principal):** `GEMINI_API_KEY` com modelo `gemini-3.6-flash`.
-- **Plano B (Fallback 1):** `HUGGINGFACE_API_KEY` via Hugging Face Router.
-- **Plano C (Fallback 2):** `NVIDIA_API_KEY` via NVIDIA NIM Vision (`meta/llama-3.2-11b-vision-instruct`).
-- **Plano D (Local):** Análise local via MediaPipe FaceLandmarker no próprio navegador (100% offline e sem consumo de tokens).
+## Personalizar para as marcas da loja
 
-As variáveis `NEXT_PUBLIC_FIREBASE_*` inicializam App, Firestore, Storage e Auth. O catálogo atual permanece em `src/lib/mock-data.ts`; a conexão não muda a fonte de produtos automaticamente. O app não salva fotos nem leads.
+| O que mudar | Onde |
+| --- | --- |
+| Nome, descrição, campanha, foto principal e contatos | `src/lib/site-config.ts` |
+| Cores da identidade | Variáveis `--brand-*` em `src/app/globals.css` |
+| Produtos iniciais, marcas, preços e imagens | `src/lib/mock-data.ts` |
+| Imagens próprias | `public/images/` |
+| Produtos no editor de demonstração | `/admsecreto` |
 
-`NEXT_PUBLIC_WHATSAPP_NUMBER` define o destino dos botões de atendimento em formato internacional, sem `+`. O padrão é `5535998892492`, baseado no WhatsApp da loja (R. Alves e Silva, 61 - Centro).
+As marcas disponíveis nos filtros são extraídas automaticamente do campo **Marca / Coleção** dos produtos. Não é preciso editar o layout para acrescentar uma marca.
 
-## Conteúdo de demonstração
+Para uma alteração distribuída a todos os visitantes nesta versão, altere o catálogo inicial no código e publique uma nova versão. Alterações feitas no editor não são distribuídas a outros aparelhos. Catálogos já salvos no navegador continuam prevalecendo sobre os produtos iniciais até a restauração manual.
 
-Produtos, preços e fotos de campanha são ilustrativos. As imagens foram geradas por IA para este protótipo. O Gemini avalia primeiro o contorno facial aparente, incluindo uma estimativa visual da proporção entre altura e largura. A categoria "Alongado" exige proporção estimada de pelo menos 1,55. Em seguida, uma segunda chamada escolhe três armações distintas pelos IDs do catálogo.
+Os campos de endereço, horário e Instagram começam vazios e ficam ocultos até serem preenchidos. O WhatsApp existente foi mantido e deve ser confirmado antes de publicar. A variável `NEXT_PUBLIC_WHATSAPP_NUMBER` substitui o número padrão; atualize também o texto de telefone na configuração.
 
-No modo local, o MediaPipe detecta pontos faciais no navegador. Medidas de altura, largura, testa e mandíbula orientam uma classificação aproximada e a escolha de três armações do catálogo. Fotos com vários rostos, sem rosto ou muito inclinadas pedem nova captura. Esse modo não envia a foto a uma API e não usa cota, mas depende de o navegador carregar os arquivos do modelo. A resposta é uma sugestão de estilo, sujeita à confirmação presencial. O protótipo não salva a foto. Antes de colocar no ar, substitua o catálogo, valide preços e estoque, confirme horário e WhatsApp, e revise o texto com a Ótica Fábio.
+## Editor de demonstração
 
-As cinco fotos em `scripts/fixtures/` são retratos fictícios gerados para testar formatos diferentes; não são fotos de clientes.
+Acesse `/admsecreto` e use o código demonstrativo **2000**.
 
-O endereço, telefone e a história de três gerações foram conferidos em [cobertura da reinauguração de 2025](https://jornalinformasion.blogspot.com/2025/07/sul-otica-reinaugura-sua-loja-para.html).
+É possível adicionar, editar, excluir, exportar e importar produtos. Fotos JPG, PNG ou WebP de até 10 MB são reduzidas antes do salvamento. O navegador possui limite de armazenamento; faça exportações periódicas e mantenha as imagens pequenas.
 
-## Comandos
+**Esse código público não é uma senha de produção.** As chaves antigas de armazenamento foram mantidas para preservar os cadastros locais existentes.
+
+## Visagismo
+
+1. Abra **Descubra seu estilo**.
+2. Envie uma foto frontal ou permita a captura pela câmera.
+3. Escolha a análise local ou a opção em nuvem, quando configurada.
+4. Veja sugestões de formatos e consulte a equipe pelo WhatsApp.
+
+O modo **Analisar neste aparelho** usa MediaPipe no navegador e não envia a foto à API de análise. Depende do carregamento do modelo e de compatibilidade com WebAssembly; não existe garantia de uso integralmente offline.
+
+O recurso sugere estilo. Não identifica pessoas, não faz diagnóstico ou prescrição, nem sobrepõe óculos ao rosto em tempo real. Fotos e produtos de exemplo são ilustrativos.
+
+### Integrações opcionais
+
+Copie `.env.local.example` para `.env.local` e configure somente os serviços que serão usados:
+
+| Variável | Uso |
+| --- | --- |
+| `GEMINI_API_KEY` / `GEMINI_MODEL` | Provedor de análise em nuvem |
+| `HUGGINGFACE_API_KEY` / `HUGGINGFACE_MODEL` | Provedor alternativo |
+| `NVIDIA_API_KEY` / `NVIDIA_MODEL` | Provedor alternativo |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Destino dos links de atendimento |
+| `NEXT_PUBLIC_FIREBASE_*` | Configuração opcional do SDK Firebase |
+
+As integrações dependem das credenciais, cotas, modelos e termos dos respectivos fornecedores. O código prevê alternativas em caso de indisponibilidade, mas não garante continuidade ilimitada. A configuração do Firebase, isoladamente, **não conecta o catálogo a um banco nem protege o painel**.
+
+As chaves privadas não devem usar o prefixo `NEXT_PUBLIC_` nem ser enviadas ao Git. Antes de habilitar o fluxo em nuvem para visitantes, documente provedores, finalidade, retenção, base legal, aviso de privacidade e autorizações aplicáveis. Não se presume descarte imediato da imagem por serviços externos.
+
+## Verificar a aplicação
 
 ```bash
-npm run build
+npm run lint
 npm run typecheck
-npm run test:visagismo # com npm run dev em outro terminal
-npm run demo # com npm run dev em outro terminal; salva vídeo e capturas em artifacts/
+npm run build
 ```
 
-`npm run demo` e `npm run test:visagismo` usam a análise local real e não precisam de `GEMINI_API_KEY`.
+Com o servidor em execução e o Google Chrome instalado:
+
+```bash
+npm run test:site
+npm run test:visagismo
+```
+
+Para testar outro endereço, defina `DEMO_BASE_URL`, por exemplo `http://127.0.0.1:3001`.
+
+O teste do site cobre catálogo, busca, filtros, ordenação, cadastro com centavos, persistência de catálogo vazio, navegação móvel, preferência de movimento reduzido, validação da API e visagismo local. Capturas de tela ficam em `artifacts/`, fora do Git.
+
+`npm run demo` executa o roteiro de demonstração existente. Os retratos de `scripts/fixtures/` são imagens fictícias de teste.
+
+## Antes de usar comercialmente
+
+- Implementar autenticação e autorização no servidor e armazenamento central persistente de produtos e imagens.
+- Configurar backup e testar restauração. A exportação local não é backup automático.
+- Confirmar contatos, preços, disponibilidade e autorização para uso de marcas e imagens.
+- Definir a política de privacidade e as condições do processamento facial, especialmente em nuvem.
+- Usar hospedagem compatível com atividade comercial. O [plano Hobby da Vercel](https://vercel.com/docs/plans/hobby) é destinado a uso pessoal e não comercial.
+- Substituir o limitador de requisições em memória por uma solução compartilhada se houver múltiplas instâncias.
+- Configurar domínio, credenciais de produção, cotas e limites de gasto dos provedores.
+
+A compilação e os testes locais não representam certificação de segurança, conformidade jurídica ou disponibilidade de provedores externos.
+
+## Estrutura
+
+```text
+src/app/               Páginas e API de visagismo
+src/components/        Interface e componentes reutilizáveis
+src/lib/site-config.ts Identidade, campanha e contatos
+src/lib/mock-data.ts   Catálogo inicial
+src/lib/               Persistência local e análise facial
+public/images/         Fotografias da vitrine
+scripts/               Preparação do modelo e verificações
+```
+
+Documentos particulares de contrato, análises contratuais e arquivos temporários não fazem parte do código do site nem devem ser publicados na pasta pública.

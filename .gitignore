@@ -4,3 +4,8 @@ node_modules
 *.tsbuildinfo
 /artifacts/
 /public/mediapipe/
+
+/.publish-repo/
+/.pnpm-store/
+/tmp/
+/output/

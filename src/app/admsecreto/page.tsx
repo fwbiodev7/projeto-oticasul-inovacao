@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, ChangeEvent, FormEvent } from 'react';
+import { useState, useMemo, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -24,25 +24,25 @@ import {
 } from 'lucide-react';
 import type { Product } from '@/types';
 import {
-  loadCatalog,
   addCatalogProduct,
   updateCatalogProduct,
   deleteCatalogProduct,
   resetCatalogToDefault,
   exportCatalogJson,
   importCatalogJson,
-  CATALOG_CHANGE_EVENT,
 } from '@/lib/catalog-storage';
 import { AddProductModal } from '@/components/AddProductModal';
+import { useCatalog } from '@/lib/use-catalog';
+import { useDemoSession, setDemoSession } from '@/lib/demo-session';
 
-const DEFAULT_PIN = '2000'; // Ano de fundação da Ótica Fábio
+const DEFAULT_PIN = '2000'; // Código público de demonstração; não é proteção de produção.
 
 export default function AdminSecretoPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const isAuthenticated = useDemoSession();
   const [pinInput, setPinInput] = useState<string>('');
   const [pinError, setPinError] = useState<string | null>(null);
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = useCatalog();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [selectedShape, setSelectedShape] = useState<string>('Todos');
@@ -50,38 +50,10 @@ export default function AdminSecretoPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Verificar se já autenticou nesta sessão do navegador
-  useEffect(() => {
-    try {
-      const savedAuth = sessionStorage.getItem('oticafabio_adm_auth');
-      if (savedAuth === 'true') {
-        setIsAuthenticated(true);
-      }
-    } catch {
-      // Ignora erro em ambientes sem sessionStorage
-    }
-  }, []);
-
-  // Carregar produtos e ouvir alterações
-  useEffect(() => {
-    setProducts(loadCatalog());
-
-    function handleUpdate() {
-      setProducts(loadCatalog());
-    }
-
-    window.addEventListener(CATALOG_CHANGE_EVENT, handleUpdate);
-    window.addEventListener('storage', handleUpdate);
-    return () => {
-      window.removeEventListener(CATALOG_CHANGE_EVENT, handleUpdate);
-      window.removeEventListener('storage', handleUpdate);
-    };
-  }, []);
-
   function handlePinSubmit(e?: FormEvent) {
     if (e) e.preventDefault();
     if (pinInput.trim() === DEFAULT_PIN) {
-      setIsAuthenticated(true);
+      setDemoSession(true);
       setPinError(null);
       try {
         sessionStorage.setItem('oticafabio_adm_auth', 'true');
@@ -89,7 +61,7 @@ export default function AdminSecretoPage() {
         // Ignora
       }
     } else {
-      setPinError('Código incorreto. A senha padrão da loja é 2000.');
+      setPinError('Código incorreto. Confira o código de demonstração no manual.');
       setPinInput('');
     }
   }
@@ -100,7 +72,7 @@ export default function AdminSecretoPage() {
       const newPin = pinInput + num;
       setPinInput(newPin);
       if (newPin === DEFAULT_PIN) {
-        setIsAuthenticated(true);
+        setDemoSession(true);
         try {
           sessionStorage.setItem('oticafabio_adm_auth', 'true');
         } catch {
@@ -116,7 +88,7 @@ export default function AdminSecretoPage() {
   }
 
   function handleLogout() {
-    setIsAuthenticated(false);
+    setDemoSession(false);
     setPinInput('');
     try {
       sessionStorage.removeItem('oticafabio_adm_auth');
@@ -144,12 +116,10 @@ export default function AdminSecretoPage() {
 
   function handleSaveProduct(productData: Product) {
     if (editingProduct) {
-      const updated = updateCatalogProduct(productData);
-      setProducts(updated);
+      updateCatalogProduct(productData);
       showToast(`Armação "${productData.name}" atualizada com sucesso!`);
     } else {
-      const updated = addCatalogProduct(productData);
-      setProducts(updated);
+      addCatalogProduct(productData);
       showToast(`Nova armação "${productData.name}" adicionada ao catálogo!`);
     }
     setIsModalOpen(false);
@@ -158,8 +128,7 @@ export default function AdminSecretoPage() {
 
   function handleDeleteProduct(id: string, name: string) {
     if (confirm(`Tem certeza que deseja remover a armação "${name}" do catálogo?`)) {
-      const updated = deleteCatalogProduct(id);
-      setProducts(updated);
+      try { deleteCatalogProduct(id); } catch (error) { showToast(error instanceof Error ? error.message : "Falha ao excluir."); return; }
       showToast(`Armação "${name}" removida do catálogo.`);
     }
   }
@@ -167,11 +136,10 @@ export default function AdminSecretoPage() {
   function handleResetDefault() {
     if (
       confirm(
-        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Ótica Fábio? Modelos criados por você serão excluídos.'
+        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Inovação Ótica? Modelos criados por você serão excluídos.'
       )
     ) {
-      const updated = resetCatalogToDefault();
-      setProducts(updated);
+      try { resetCatalogToDefault(); } catch (error) { showToast(error instanceof Error ? error.message : "Falha ao restaurar."); return; }
       showToast('Catálogo restaurado para as configurações de fábrica.');
     }
   }
@@ -183,7 +151,7 @@ export default function AdminSecretoPage() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `oticafabio_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      link.download = `inovacao_otica_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
       link.click();
       URL.revokeObjectURL(url);
       showToast('Arquivo de backup baixado com sucesso!');
@@ -200,7 +168,6 @@ export default function AdminSecretoPage() {
       try {
         if (typeof reader.result === 'string') {
           const imported = importCatalogJson(reader.result);
-          setProducts(imported);
           showToast(`Backup restaurado! ${imported.length} armações carregadas.`);
         }
       } catch (err: unknown) {
@@ -236,10 +203,10 @@ export default function AdminSecretoPage() {
   // TELA DE PROTEÇÃO / DIGITAÇÃO DE PIN (SUPER SIMPLES E ACOLHEDORA)
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#072444] text-white flex flex-col justify-between p-4 sm:p-8">
+      <div className="min-h-screen bg-primary text-white flex flex-col justify-between p-4 sm:p-8">
         <header className="flex items-center justify-between">
           <Link href="/" className="font-sans text-xl font-black tracking-[-.04em] text-white">
-            ÓTICA <span className="text-accent">FÁBIO</span>
+            INOVAÇÃO <span className="text-lime">ÓTICA</span>
           </Link>
           <Link
             href="/"
@@ -258,7 +225,7 @@ export default function AdminSecretoPage() {
             Área Reservada da Loja
           </h1>
           <p className="mt-2 text-sm text-white/70 leading-relaxed">
-            Painel exclusivo dos proprietários para mexer no catálogo de óculos.
+            Editor de demonstração. As alterações ficam apenas neste navegador.
           </p>
 
           <form onSubmit={handlePinSubmit} className="mt-6">
@@ -291,7 +258,7 @@ export default function AdminSecretoPage() {
                   key={num}
                   type="button"
                   onClick={() => handleKeypadPress(num)}
-                  className="h-13 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent hover:text-white transition active:scale-95 border border-white/10 flex items-center justify-center"
+                  className="h-12 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent hover:text-white transition active:scale-95 border border-white/10 flex items-center justify-center"
                 >
                   {num}
                 </button>
@@ -299,20 +266,20 @@ export default function AdminSecretoPage() {
               <button
                 type="button"
                 onClick={handleKeypadClear}
-                className="h-13 rounded-2xl bg-white/5 text-xs font-bold text-white/60 hover:bg-white/15 transition active:scale-95 border border-white/10 flex items-center justify-center"
+                className="h-12 rounded-2xl bg-white/5 text-xs font-bold text-white/60 hover:bg-white/15 transition active:scale-95 border border-white/10 flex items-center justify-center"
               >
                 Limpar
               </button>
               <button
                 type="button"
                 onClick={() => handleKeypadPress('0')}
-                className="h-13 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent transition active:scale-95 border border-white/10 flex items-center justify-center"
+                className="h-12 rounded-2xl bg-white/10 text-xl font-bold text-white hover:bg-accent transition active:scale-95 border border-white/10 flex items-center justify-center"
               >
                 0
               </button>
               <button
                 type="submit"
-                className="h-13 rounded-2xl bg-accent text-sm font-bold text-white hover:bg-[#0da2e0] transition active:scale-95 shadow-md flex items-center justify-center gap-1"
+                className="h-12 rounded-2xl bg-accent text-sm font-bold text-white hover:bg-primary transition active:scale-95 shadow-md flex items-center justify-center gap-1"
               >
                 <Unlock size={16} /> Entrar
               </button>
@@ -322,16 +289,16 @@ export default function AdminSecretoPage() {
           {/* Dica Amigável */}
           <div className="mt-8 rounded-2xl bg-white/5 p-4 border border-white/10 text-xs text-white/70">
             <p className="flex items-center justify-center gap-1.5 font-bold text-accent mb-1">
-              <KeyRound size={14} /> Senha da Loja:
+              <KeyRound size={14} /> Código de demonstração:
             </p>
             <p>
-              A senha padrão é o ano em que a Ótica Fábio começou: <strong>2000</strong>.
+              Código para testar este protótipo: <strong>2000</strong>.
             </p>
           </div>
         </main>
 
         <footer className="text-center text-xs text-white/40">
-          Ótica Fábio · Desde 2000 em Sua Cidade/MG · Painel Protegido
+          Inovação Ótica · Editor de demonstração local
         </footer>
       </div>
     );
@@ -339,7 +306,7 @@ export default function AdminSecretoPage() {
 
   // TELA ADMINISTRATIVA PRINCIPAL
   return (
-    <div className="min-h-screen bg-[#f7fafc] text-ink pb-20">
+    <div className="min-h-screen bg-paper text-ink pb-20">
       {/* Toast de notificação */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-2xl bg-primary px-5 py-4 text-sm font-semibold text-white shadow-2xl border border-white/10 animate-fade-in">
@@ -354,7 +321,7 @@ export default function AdminSecretoPage() {
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
               <span className="font-sans text-xl font-black tracking-[-.04em] text-primary">
-                ÓTICA <span className="text-accent">FÁBIO</span>
+                INOVAÇÃO <span className="text-lime">ÓTICA</span>
               </span>
             </Link>
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-800">
@@ -372,7 +339,7 @@ export default function AdminSecretoPage() {
             <button
               type="button"
               onClick={handleLogout}
-              title="Bloquear painel para segurança"
+              title="Sair do editor"
               className="inline-flex items-center gap-1.5 rounded-full bg-primary/8 px-3.5 py-2 text-xs font-bold text-primary hover:bg-primary hover:text-white transition"
             >
               <Lock size={13} /> Bloquear
@@ -550,6 +517,7 @@ export default function AdminSecretoPage() {
                   <div className="relative aspect-[1.4] overflow-hidden bg-[#f3f8fa] border-b border-primary/5">
                     <Image
                       src={p.image}
+                      unoptimized={!p.image.startsWith('/images/')}
                       alt={p.name}
                       fill
                       sizes="(max-width: 640px) 100vw, 33vw"
@@ -647,7 +615,7 @@ export default function AdminSecretoPage() {
         <section className="rounded-2xl border border-primary/10 bg-white p-6 shadow-soft">
           <div className="flex items-center gap-2 text-primary font-bold text-base mb-3">
             <Sparkles size={18} className="text-accent" />
-            <span>Guia Rápido para a Equipe Ótica Fábio</span>
+            <span>Guia Rápido para a Equipe Inovação Ótica</span>
           </div>
           <div className="grid gap-4 sm:grid-cols-3 text-xs text-ink/75 leading-5">
             <div className="rounded-xl bg-light p-4">

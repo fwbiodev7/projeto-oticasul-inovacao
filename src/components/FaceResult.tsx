@@ -2,14 +2,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ScanFace, Sparkles } from 'lucide-react';
 import type { FaceAnalysisResult, Product } from '@/types';
-import { products } from '@/lib/mock-data';
+import { useCatalog } from '@/lib/use-catalog';
 import { ProductCard } from './ProductCard';
 import { WhatsAppButton } from './WhatsAppButton';
 
 export function FaceResult({ result, onRestart }: { result: FaceAnalysisResult; onRestart: () => void }) {
-  const chosen = (result.recommendedProducts || [])
+  const products = useCatalog();
+  const matched = (result.recommendedProducts || [])
     .map(item => ({ product: products.find(product => product.id === item.productId), reason: item.reason }))
     .filter((item): item is { product: Product; reason: string } => Boolean(item.product));
+  const chosen = [...matched, ...products.filter(p => !matched.some(item => item.product.id === p.id) && result.recommendedFrameShapes.includes(p.frameShape)).map(product => ({ product, reason: 'Este formato acompanha as sugestões da análise.' }))].slice(0, 3);
   const message = 'Olá! Fiz o visagismo por IA e gostaria de experimentar estas armações: ' + chosen.map(item => item.product.name).join(', ') + '.';
 
   return <div className="animate-fade-in space-y-9">
@@ -25,11 +27,11 @@ export function FaceResult({ result, onRestart }: { result: FaceAnalysisResult; 
         <h3 className="mt-4 text-2xl font-semibold tracking-tight text-primary">Armações que combinam com seus traços</h3>
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {chosen.map(({ product, reason }) => <a key={product.id} href="#recomendados" className="group overflow-hidden rounded-xl border border-primary/10 bg-light/50 transition hover:border-accent/50 hover:shadow-soft">
-            <div className="relative aspect-[1.3] overflow-hidden bg-[#f3f8fa]"><Image src={product.image} alt={'Armação ' + product.name + ' recomendada pela IA'} fill sizes="(max-width: 640px) 45vw, 170px" className="object-cover transition duration-300 group-hover:scale-105" /></div>
+            <div className="relative aspect-[1.3] overflow-hidden bg-[#f3f8fa]"><Image src={product.image} unoptimized={!product.image.startsWith('/images/')} alt={'Armação ' + product.name + ' recomendada pela IA'} fill sizes="(max-width: 640px) 45vw, 170px" className="object-cover transition duration-300 group-hover:scale-105" /></div>
             <div className="px-3 py-2.5"><strong className="block text-xs text-primary">{product.name}</strong><span className="mt-0.5 block text-[10px] font-semibold text-accent">{product.frameShape}</span><span className="mt-1.5 block text-[11px] leading-4 text-ink/60">{reason}</span></div>
           </a>)}
         </div>
-        <p className="mt-2 text-[11px] text-ink/45">Imagens ilustrativas dos modelos do protótipo.</p>
+        <p className="mt-2 text-[11px] text-ink/45">{chosen.length ? 'Imagens ilustrativas dos modelos do protótipo.' : 'Não há modelos disponíveis para esses formatos no catálogo atual. Nossa equipe pode ajudar.'}</p>
         {result.source === 'local' && <p className="mt-4 rounded-xl bg-accent/10 px-3 py-2 text-xs leading-5 text-primary">Resultado experimental calculado no seu aparelho a partir dos pontos do rosto.</p>}
         <p className="mt-5 text-sm leading-7 text-ink/70">{result.styleAdvice}</p>
         <div className="mt-7 flex flex-wrap gap-3"><WhatsAppButton message={message}>Agendar atendimento</WhatsAppButton><button type="button" className="btn-outline" onClick={onRestart}>Nova análise</button></div>

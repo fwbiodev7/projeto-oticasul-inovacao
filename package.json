@@ -1,5 +1,5 @@
 {
-  "name": "sul-otica-prototype",
+  "name": "inovacao-otica",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,9 @@
     "start": "next start",
     "demo": "node scripts/demo.mjs",
     "test:visagismo": "node scripts/test-visagismo-local.mjs",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test:site": "node scripts/check-redesign.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.0.0",

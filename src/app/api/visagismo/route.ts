@@ -29,10 +29,9 @@ export async function POST(request: Request) {
     const origin = request.headers.get('origin');
     const host = request.headers.get('host');
     if (origin && host) {
-      const originHost = origin.replace(/^https?:\/\//, '').split(':')[0];
-      const currentHost = host.split(':')[0];
-      // Permite localhost e mesmo domínio de hospedagem
-      if (originHost !== currentHost && originHost !== 'localhost' && !originHost.endsWith('.vercel.app')) {
+      let sameOrigin = false;
+      try { const parsed = new URL(origin); sameOrigin = ['http:', 'https:'].includes(parsed.protocol) && parsed.host === host; } catch { /* Origem inválida. */ }
+      if (!sameOrigin) {
         return NextResponse.json(
           { error: 'Acesso não autorizado para origens externas.' },
           { status: 403 }
