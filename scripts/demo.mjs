@@ -69,6 +69,6 @@ try {
 } finally {
   const video = page.video();
   await context.close();
-  if (video) { await video.saveAs(path.join(output, 'inovacao-otica-demo.webm')); console.log('Video: artifacts/inovacao-otica-demo.webm'); }
+  if (video) { await video.saveAs(path.join(output, 'fabio-otica-demo.webm')); console.log('Video: artifacts/fabio-otica-demo.webm'); }
   await browser.close();
 }

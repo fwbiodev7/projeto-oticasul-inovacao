@@ -10,7 +10,7 @@ const config: Config = {
         light: 'rgb(var(--brand-light) / <alpha-value>)',
         ink: 'rgb(var(--brand-ink) / <alpha-value>)',
         paper: 'rgb(var(--brand-paper) / <alpha-value>)',
-        lime: 'rgb(var(--brand-lime) / <alpha-value>)',
+        highlight: 'rgb(var(--brand-highlight) / <alpha-value>)',
       },
       fontFamily: { sans: ['Arial', 'Helvetica', 'sans-serif'] },
       boxShadow: { soft: '0 18px 55px rgba(6, 51, 92, .08)' },

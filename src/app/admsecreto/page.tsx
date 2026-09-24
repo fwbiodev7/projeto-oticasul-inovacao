@@ -136,7 +136,7 @@ export default function AdminSecretoPage() {
   function handleResetDefault() {
     if (
       confirm(
-        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Inovação Ótica? Modelos criados por você serão excluídos.'
+        'ATENÇÃO: Deseja restaurar o catálogo para as 18 armações originais da Fábio Ótica? Modelos criados por você serão excluídos.'
       )
     ) {
       try { resetCatalogToDefault(); } catch (error) { showToast(error instanceof Error ? error.message : "Falha ao restaurar."); return; }
@@ -151,7 +151,7 @@ export default function AdminSecretoPage() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `inovacao_otica_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      link.download = `fabio_otica_catalogo_backup_${new Date().toISOString().slice(0, 10)}.json`;
       link.click();
       URL.revokeObjectURL(url);
       showToast('Arquivo de backup baixado com sucesso!');
@@ -206,7 +206,7 @@ export default function AdminSecretoPage() {
       <div className="min-h-screen bg-primary text-white flex flex-col justify-between p-4 sm:p-8">
         <header className="flex items-center justify-between">
           <Link href="/" className="font-sans text-xl font-black tracking-[-.04em] text-white">
-            INOVAÇÃO <span className="text-lime">ÓTICA</span>
+            FÁBIO <span className="text-highlight">ÓTICA</span>
           </Link>
           <Link
             href="/"
@@ -298,7 +298,7 @@ export default function AdminSecretoPage() {
         </main>
 
         <footer className="text-center text-xs text-white/40">
-          Inovação Ótica · Editor de demonstração local
+          Fábio Ótica · Editor de demonstração local
         </footer>
       </div>
     );
@@ -321,7 +321,7 @@ export default function AdminSecretoPage() {
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
               <span className="font-sans text-xl font-black tracking-[-.04em] text-primary">
-                INOVAÇÃO <span className="text-lime">ÓTICA</span>
+                FÁBIO <span className="text-accent">ÓTICA</span>
               </span>
             </Link>
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-800">
@@ -368,7 +368,7 @@ export default function AdminSecretoPage() {
             <button
               type="button"
               onClick={handleOpenAdd}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-[#0ea0dc] transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-primary transition"
             >
               <PlusCircle size={18} /> Adicionar Nova Armação
             </button>
@@ -615,7 +615,7 @@ export default function AdminSecretoPage() {
         <section className="rounded-2xl border border-primary/10 bg-white p-6 shadow-soft">
           <div className="flex items-center gap-2 text-primary font-bold text-base mb-3">
             <Sparkles size={18} className="text-accent" />
-            <span>Guia Rápido para a Equipe Inovação Ótica</span>
+            <span>Guia Rápido para a Equipe Fábio Ótica</span>
           </div>
           <div className="grid gap-4 sm:grid-cols-3 text-xs text-ink/75 leading-5">
             <div className="rounded-xl bg-light p-4">

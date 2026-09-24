@@ -25,7 +25,7 @@ export function AddProductModal(props: AddProductModalProps) {
 
 function ProductModalForm({ isOpen, onClose, onAddProduct, productToEdit }: AddProductModalProps) {
   const [name, setName] = useState(productToEdit?.name ?? '');
-  const [brand, setBrand] = useState(productToEdit?.brand ?? 'Coleção Inovação');
+  const [brand, setBrand] = useState(productToEdit?.brand ?? 'Coleção Fábio');
   const [price, setPrice] = useState(productToEdit?.price.toString() ?? '399');
   const [category, setCategory] = useState<ProductCategory>(productToEdit?.category ?? 'Grau');
   const [frameShape, setFrameShape] = useState<FrameShape>(productToEdit?.frameShape ?? 'Redondo');
@@ -47,7 +47,7 @@ function ProductModalForm({ isOpen, onClose, onAddProduct, productToEdit }: AddP
   function resetForm() {
     setError('');
     setName('');
-    setBrand('Coleção Inovação');
+    setBrand('Coleção Fábio');
     setPrice('399');
     setCategory('Grau');
     setFrameShape('Redondo');
@@ -95,7 +95,7 @@ function ProductModalForm({ isOpen, onClose, onAddProduct, productToEdit }: AddP
     const productData: Product = {
       id: productToEdit ? productToEdit.id : 'custom-' + crypto.randomUUID(),
       name: name.trim(),
-      brand: brand.trim() || 'Coleção Inovação',
+      brand: brand.trim() || 'Coleção Fábio',
       price: amount,
       image,
       category,
@@ -170,7 +170,7 @@ function ProductModalForm({ isOpen, onClose, onAddProduct, productToEdit }: AddP
                 id="product-brand"
                 value={brand}
                 onChange={e => setBrand(e.target.value)}
-                placeholder="Ex: Coleção Inovação, Ray-Ban..."
+                placeholder="Ex: Coleção Fábio, Ray-Ban..."
                 className="w-full rounded-xl border border-primary/15 bg-light/40 px-3.5 py-2.5 text-sm font-semibold text-primary outline-none focus:border-accent focus:bg-white transition"
               />
             </div>

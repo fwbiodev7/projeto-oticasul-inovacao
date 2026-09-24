@@ -2,7 +2,7 @@
 import { useSyncExternalStore } from 'react';
 // Apenas conveniência para a demonstração local; não é autenticação de servidor.
 const key = 'oticafabio_adm_auth';
-const eventName = 'inovacao-demo-session';
+const eventName = 'fabio-demo-session';
 let memory = false;
 function snapshot() { try { return sessionStorage.getItem(key) === 'true'; } catch { return memory; } }
 function subscribe(notify: () => void) { window.addEventListener(eventName, notify); return () => window.removeEventListener(eventName, notify); }

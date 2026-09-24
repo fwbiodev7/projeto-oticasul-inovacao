@@ -1,4 +1,4 @@
-# Inovação Ótica
+# Fábio Ótica
 
 Site de ótica com identidade editorial própria, catálogo por marca e sugestões de armações por visagismo. Construído com Next.js 16, React 19, TypeScript e Tailwind CSS 3.
 
@@ -6,8 +6,8 @@ Site de ótica com identidade editorial própria, catálogo por marca e sugestõ
 
 ## O que mudou nesta atualização
 
-- Nova identidade **Inovação Ótica**, substituindo os nomes antigos nas telas e mensagens.
-- Design em verde profundo e tons claros, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
+- Nova identidade **Fábio Ótica**, substituindo os nomes antigos nas telas e mensagens.
+- Design em verde profundo com azul marinho secundário e destaques azul claro, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
 - Animações de entrada, faixa em movimento, selo giratório, efeitos nos produtos e ilustração animada do visagismo.
 - Respeito à preferência de movimento reduzido, menu móvel com fechamento por Escape e link para pular ao conteúdo.
 - Identidade, campanha e contatos centralizados; cores controladas por variáveis compartilhadas.

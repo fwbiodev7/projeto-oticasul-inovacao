@@ -1,4 +1,4 @@
-# Guia de uso da Inovação Ótica
+# Guia de uso da Fábio Ótica
 
 ## Explorar os modelos
 

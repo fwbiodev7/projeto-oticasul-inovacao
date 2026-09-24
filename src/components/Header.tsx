@@ -7,7 +7,7 @@ import { Logo } from './Logo';
 import { siteConfig } from '@/lib/site-config';
 import { whatsappUrl } from '@/lib/mock-data';
 
-const nav = [['Início', '/'], ['Nossos óculos', '/catalogo'], ['Descubra seu estilo', '/visagismo'], ['A Inovação', '/sobre']];
+const nav = [['Início', '/'], ['Nossos óculos', '/catalogo'], ['Descubra seu estilo', '/visagismo'], ['Sobre nós', '/sobre']];
 export function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);

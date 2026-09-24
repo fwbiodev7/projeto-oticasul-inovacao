@@ -16,7 +16,7 @@ export function HeroSection() {
     <div className="hero-visual">
       <div className="hero-photo"><Image src={campaign.image} alt={campaign.imageAlt} fill preload sizes="(max-width: 1024px) 100vw, 52vw" className="object-cover object-[68%_center]" /><div className="hero-photo-shade" /><div className="hero-caption"><span>ESSENCIAIS, DO SEU JEITO.</span><p>{campaign.caption}</p></div></div>
       <div className="hero-stamp" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="stamp-circle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs><text><textPath href="#stamp-circle" textLength="273">NOVOS OLHARES · NOVAS POSSIBILIDADES · </textPath></text></svg><ArrowUpRight size={36} strokeWidth={1} /></div>
-      <span className="hero-side-note" aria-hidden="true">INOVAÇÃO ÓTICA — SEJA SEU PONTO DE VISTA</span>
+      <span className="hero-side-note" aria-hidden="true">FÁBIO ÓTICA — SEJA SEU PONTO DE VISTA</span>
     </div>
   </section>;
 }
