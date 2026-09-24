@@ -324,8 +324,8 @@ export default function AdminSecretoPage() {
                 FÁBIO <span className="text-accent">ÓTICA</span>
               </span>
             </Link>
-            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-800">
-              <ShieldCheck size={13} className="text-emerald-600" /> Acesso Seguro Autorizado
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-[11px] font-bold text-blue-800">
+              <ShieldCheck size={13} className="text-blue-600" /> Acesso Seguro Autorizado
             </span>
           </div>
 

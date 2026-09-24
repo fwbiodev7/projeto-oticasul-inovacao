@@ -7,7 +7,7 @@ Site de ótica com identidade editorial própria, catálogo por marca e sugestõ
 ## O que mudou nesta atualização
 
 - Nova identidade **Fábio Ótica**, substituindo os nomes antigos nas telas e mensagens.
-- Design em verde profundo com azul marinho secundário e destaques azul claro, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
+- Design em azul marinho com tons de azul nos destaques e fundos, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
 - Animações de entrada, faixa em movimento, selo giratório, efeitos nos produtos e ilustração animada do visagismo.
 - Respeito à preferência de movimento reduzido, menu móvel com fechamento por Escape e link para pular ao conteúdo.
 - Identidade, campanha e contatos centralizados; cores controladas por variáveis compartilhadas.
