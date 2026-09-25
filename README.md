@@ -1,12 +1,14 @@
-# Fábio Ótica
+# Sul Ótica
 
-Site de ótica com identidade editorial própria, catálogo por marca e sugestões de armações por visagismo. Construído com Next.js 16, React 19, TypeScript e Tailwind CSS 3.
+Site da Sul Ótica, em Varginha (MG), com identidade em azul e branco, catálogo por marca e sugestões de armações por visagismo. Construído com Next.js 16, React 19, TypeScript e Tailwind CSS 3.
 
 > **Estado do projeto:** protótipo navegável. O editor atual salva o catálogo somente no navegador utilizado. Ainda não há autenticação administrativa no servidor nem catálogo compartilhado entre visitantes. Não é uma loja com checkout.
 
+Base desta atualização: commit remoto `299b6b7`.
+
 ## O que mudou nesta atualização
 
-- Nova identidade **Fábio Ótica**, substituindo os nomes antigos nas telas e mensagens.
+- Nova identidade **Sul Ótica**, substituindo os nomes antigos nas telas e mensagens.
 - Design em azul marinho com tons de azul nos destaques e fundos, logotipo próprio, fotografia editorial, vitrine e seções redesenhadas.
 - Animações de entrada, faixa em movimento, selo giratório, efeitos nos produtos e ilustração animada do visagismo.
 - Respeito à preferência de movimento reduzido, menu móvel com fechamento por Escape e link para pular ao conteúdo.
@@ -20,7 +22,7 @@ Site de ótica com identidade editorial própria, catálogo por marca e sugestõ
 - Recomendações exibidas apenas para produtos presentes no catálogo atual, com alternativas por formato quando necessário.
 - Validação de origem da API corrigida, sem liberar automaticamente domínios externos terminados em `.vercel.app`.
 - Comando de lint atualizado para a versão atual do Next.js.
-- Remoção de endereço, história e rede social demonstrativos apresentados como fatos. Os campos devem ser preenchidos com dados reais.
+- Endereço, CEP e telefone da Sul Ótica conforme a referência fornecida, com links de localização e ligação. Horários completos e redes sociais não informados não são apresentados como fatos.
 
 ## Executar localmente
 
@@ -49,7 +51,7 @@ As marcas disponíveis nos filtros são extraídas automaticamente do campo **Ma
 
 Para uma alteração distribuída a todos os visitantes nesta versão, altere o catálogo inicial no código e publique uma nova versão. Alterações feitas no editor não são distribuídas a outros aparelhos. Catálogos já salvos no navegador continuam prevalecendo sobre os produtos iniciais até a restauração manual.
 
-Os campos de endereço, horário e Instagram começam vazios e ficam ocultos até serem preenchidos. O WhatsApp existente foi mantido e deve ser confirmado antes de publicar. A variável `NEXT_PUBLIC_WHATSAPP_NUMBER` substitui o número padrão; atualize também o texto de telefone na configuração.
+Dados informados: Rua Alves e Silva, 61, Centro, Varginha - MG, CEP 37002-190; telefone (35) 99889-2492. A referência mostra uma abertura às 09h na sexta-feira, mas não uma grade completa: o site orienta a consultar o horário com a equipe. Instagram permanece oculto por não ter sido informado. A variável `NEXT_PUBLIC_WHATSAPP_NUMBER` substitui o destino dos links de WhatsApp; os dados de ligação estão em `phoneLabel` e `phoneHref`.
 
 ## Editor de demonstração
 

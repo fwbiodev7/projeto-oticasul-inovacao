@@ -1,4 +1,4 @@
-# Guia de uso da Fábio Ótica
+# Guia de uso da Sul Ótica
 
 ## Explorar os modelos
 

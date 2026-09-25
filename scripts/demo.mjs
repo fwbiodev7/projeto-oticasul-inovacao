@@ -21,7 +21,7 @@ async function visit(route, heading) {
 }
 
 try {
-  await visit('/', 'Seu olhar.');
+  await visit('/', 'Veja a vida');
   await page.screenshot({ path: path.join(output, 'home-desktop.png'), fullPage: true });
   await page.mouse.wheel(0, 670);
   await page.waitForTimeout(750);
@@ -69,6 +69,6 @@ try {
 } finally {
   const video = page.video();
   await context.close();
-  if (video) { await video.saveAs(path.join(output, 'fabio-otica-demo.webm')); console.log('Video: artifacts/fabio-otica-demo.webm'); }
+  if (video) { await video.saveAs(path.join(output, 'sul-otica-demo.webm')); console.log('Video: artifacts/sul-otica-demo.webm'); }
   await browser.close();
 }
